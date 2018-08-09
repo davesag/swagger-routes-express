@@ -1,15 +1,15 @@
 # swagger-routes-express
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/davesag/swagger-routes-express.svg)](https://greenkeeper.io/)
-
 Connect your Express route controllers to restful paths using your Swagger definition file
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/davesag/swagger-routes-express.svg)](https://greenkeeper.io/)
 
 ## Branches
 
-| Branch | Status | Coverage |   |
+| Branch | Status | Coverage | Notes |
 | ------ | ------ | -------- | - |
-| `develop` | [CircleCI] | [codecov] | Work in progress |
-| `master` | [CircleCI] | [codecov] | Latest stable release |
+| `develop` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/develop/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | Work in progress |
+| `master` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/master.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/master) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/master/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | Latest stable release |
 
 ## Prerequisites
 
@@ -116,7 +116,7 @@ And API route controllers in `./api/index.js`:
       })
     }
 
-    module.exports = {ping, versions}
+    module.exports = { ping, versions }
 
 You could set up your server as follows:
 
@@ -143,7 +143,7 @@ With the result that requests to `GET /` will invoke the `versions` controller a
 
 ### Adding security handlers
 
-The Route Connector allows you to pass in options so if your swagger document defines security scopes you can pass in the following `scopes` option:
+You can pass in a range of options, so if your swagger document defines security scopes you can pass in the following `scopes` option:
 
     const options = {
       scopes: {
@@ -172,6 +172,18 @@ If no `operationId` is supplied for a path then a default `notFound` controller 
 ### Base paths
 
 For the root path `/` we check the route's `tags`.  If the first tag defined for a path is `'root'` we don't inject the api basePath, otherwise we do.  You can define your own `rootTag` option to override this.
+
+### Default Options
+
+If you don't pass in any options the defaults are:
+
+    {
+      notImplemented: require('./routes/notImplemented'),
+      notFound: : require('./routes/notFound'),
+      scopes: {},
+      apiSeparator: '_',
+      rootTag: 'root'
+    }
 
 ## Contributing
 
