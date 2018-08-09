@@ -1,5 +1,7 @@
 # swagger-routes-express
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/davesag/swagger-routes-express.svg)](https://greenkeeper.io/)
+
 Connect your Express route controllers to restful paths using your Swagger definition file
 
 ## Branches
