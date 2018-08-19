@@ -1,15 +1,15 @@
-const notImplemented = require('./routes/notImplemented')
-const notFound = require('./routes/notFound')
+const ni = require('./routes/notImplemented')
+const nf = require('./routes/notFound')
 const { METHODS } = require('./constants')
 
 const swaggerRoutes = (api, { basePath, paths }, options = {}) => {
   const {
-    notImplemented, // Express Route function called if the operationId doesn't match a controller.
-    notFound, // Express Route function called if the operationId is missing from the swagger doc.
-    scopes = {}, // Sorted scopes become keys, values are auth controllers.
     apiSeparator = '_', // What to swap for `/` in the swagger doc
+    notFound = nf, // called if the operationId is missing from the swagger doc.
+    notImplemented = ni, // called if the operationId doesn't match a controller.
+    onCreateRoute, // the hook to use when a route is created.
     rootTag = 'root', // The tag that tells us not to prepend the basePath
-    onCreateRoute // the hook to use when a route is created.
+    scopes = {} // Sorted scopes become keys, values are auth controllers.
   } = options
 
   const attachHandler = handler =>
@@ -20,13 +20,15 @@ const swaggerRoutes = (api, { basePath, paths }, options = {}) => {
       .sort()
       .join(',')
 
-  const details = ({ operationId, security }) => ({
-    handler: operationId
+  const details = ({ operationId, security }) => {
+    const handler = operationId
       ? attachHandler(operationId.replace(/\//g, apiSeparator))
-      : notFound,
-    security:
+      : notFound
+    const sec =
       security && security.length !== 0 ? scopes[makeScopeKey(security)] : null
-  })
+
+    return { handler, security: sec }
+  }
 
   const routeReducer = (acc, elem) => {
     METHODS.forEach(method => {

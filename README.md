@@ -158,8 +158,19 @@ You can pass in a range of options, so if your swagger document defines security
 You can supply an `onCreateRoute` handler function with the options with signature
 
     const onCreateRoute = (method, descriptor) => {
-      console.log('created route', method, ...descriptor)
+      const [path, ...handlers] = descriptor
+      console.log('created route', method, path, handlers)
     }
+
+The method will be one of `get`, `put`, `post`, `delete`, etc.
+
+The descriptor is an array of
+
+    [
+      path, // a string. Swagger param formats will have been converted to express route formats.
+      security, // a middleware function (if needed)
+      controller //  a route controller function
+    ]
 
 ### Mapping to nested API routes
 
@@ -190,9 +201,9 @@ If you don't pass in any options the defaults are:
   apiSeparator: '_',
   notFound: : require('./routes/notFound'),
   notImplemented: require('./routes/notImplemented'),
-  onCreateRoute: undefined
+  onCreateRoute: undefined,
   rootTag: 'root',
-  scopes: {},
+  scopes: {}
 }
 ```
 
