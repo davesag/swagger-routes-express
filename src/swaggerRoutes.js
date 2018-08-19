@@ -1,41 +1,40 @@
-const notImplemented = require('./routes/notImplemented')
-const notFound = require('./routes/notFound')
+const ni = require('./routes/notImplemented')
+const nf = require('./routes/notFound')
 const { METHODS } = require('./constants')
 
-const DEFAULT_OPTIONS = {
-  notImplemented,
-  notFound,
-  scopes: {},
-  apiSeparator: '_',
-  rootTag: 'root'
-}
-
 const swaggerRoutes = (api, { basePath, paths }, options = {}) => {
-  const opts = { ...DEFAULT_OPTIONS, ...options }
+  const {
+    apiSeparator = '_', // What to swap for `/` in the swagger doc
+    notFound = nf, // called if the operationId is missing from the swagger doc.
+    notImplemented = ni, // called if the operationId doesn't match a controller.
+    onCreateRoute, // the hook to use when a route is created.
+    rootTag = 'root', // The tag that tells us not to prepend the basePath
+    scopes = {} // Sorted scopes become keys, values are auth controllers.
+  } = options
 
   const attachHandler = handler =>
-    api[handler] ? api[handler] : opts.notImplemented
+    api[handler] ? api[handler] : notImplemented
 
   const makeScopeKey = security =>
     Object.values(security[0])[0]
       .sort()
       .join(',')
 
-  const details = ({ operationId, security }) => ({
-    handler: operationId
-      ? attachHandler(operationId.replace(/\//g, opts.apiSeparator))
-      : opts.notFound,
-    security:
-      security && security.length !== 0
-        ? opts.scopes[makeScopeKey(security)]
-        : null
-  })
+  const details = ({ operationId, security }) => {
+    const handler = operationId
+      ? attachHandler(operationId.replace(/\//g, apiSeparator))
+      : notFound
+    const sec =
+      security && security.length !== 0 ? scopes[makeScopeKey(security)] : null
+
+    return { handler, security: sec }
+  }
 
   const routeReducer = (acc, elem) => {
     METHODS.forEach(method => {
       const op = paths[elem][method]
       if (op) {
-        const isRoot = op.tags[0] === opts.rootTag
+        const isRoot = op.tags[0] === rootTag
         const path = `${isRoot ? '' : basePath}${elem}`
           .replace(/\{/g, ':')
           .replace(/\}/g, '')
@@ -53,9 +52,12 @@ const swaggerRoutes = (api, { basePath, paths }, options = {}) => {
 
   const connect = app => {
     const routes = getRoutes()
+
     const mapRoute = method => {
       const register = descriptor => {
         app[method](...descriptor)
+        if (typeof onCreateRoute === 'function')
+          onCreateRoute(method, descriptor)
       }
       if (routes[method]) routes[method].forEach(register)
     }

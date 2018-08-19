@@ -153,6 +153,25 @@ You can pass in a range of options, so if your swagger document defines security
       }
     }
 
+### Adding hooks
+
+You can supply an `onCreateRoute` handler function with the options with signature
+
+    const onCreateRoute = (method, descriptor) => {
+      const [path, ...handlers] = descriptor
+      console.log('created route', method, path, handlers)
+    }
+
+The method will be one of `get`, `put`, `post`, `delete`, etc.
+
+The descriptor is an array of
+
+    [
+      path, // a string. Swagger param formats will have been converted to express route formats.
+      security, // a middleware function (if needed)
+      controller //  a route controller function
+    ]
+
 ### Mapping to nested API routes
 
 If your `./api` folder contains nested controllers such as
@@ -177,13 +196,16 @@ For the root path `/` we check the route's `tags`.  If the first tag defined for
 
 If you don't pass in any options the defaults are:
 
-    {
-      notImplemented: require('./routes/notImplemented'),
-      notFound: : require('./routes/notFound'),
-      scopes: {},
-      apiSeparator: '_',
-      rootTag: 'root'
-    }
+```
+{
+  apiSeparator: '_',
+  notFound: : require('./routes/notFound'),
+  notImplemented: require('./routes/notImplemented'),
+  onCreateRoute: undefined,
+  rootTag: 'root',
+  scopes: {}
+}
+```
 
 ## Contributing
 
