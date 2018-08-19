@@ -201,9 +201,9 @@ If you don't pass in any options the defaults are:
   apiSeparator: '_',
   notFound: : require('./routes/notFound'),
   notImplemented: require('./routes/notImplemented'),
-  onCreateRoute: undefined
+  onCreateRoute: undefined,
   rootTag: 'root',
-  scopes: {},
+  scopes: {}
 }
 ```
 
