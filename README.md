@@ -122,7 +122,7 @@ You could set up your server as follows:
 
     const express = require('express')
     const SwaggerParser = require('swagger-parser')
-    const { swaggerRoutes } = require('swagger-routes-express')
+    const swaggerRoutes = require('swagger-routes-express')
     const api = require('./api')
 
     const makeApp = async () => {
