@@ -4,12 +4,12 @@ const { METHODS } = require('./constants')
 
 const swaggerRoutes = (api, { basePath, paths }, options = {}) => {
   const {
-    notImplemented = ni, // called if the operationId doesn't match a controller.
-    notFound = nf, // called if the operationId is missing from the swagger doc.
-    scopes = {}, // Sorted scopes become keys, values are auth controllers.
     apiSeparator = '_', // What to swap for `/` in the swagger doc
+    notFound = nf, // called if the operationId is missing from the swagger doc.
+    notImplemented = ni, // called if the operationId doesn't match a controller.
+    onCreateRoute, // the hook to use when a route is created.
     rootTag = 'root', // The tag that tells us not to prepend the basePath
-    onCreateRoute // the hook to use when a route is created.
+    scopes = {} // Sorted scopes become keys, values are auth controllers.
   } = options
 
   const attachHandler = handler =>
