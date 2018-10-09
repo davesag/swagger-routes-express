@@ -16,7 +16,7 @@ Connect your Express route controllers to restful paths using your Swagger defin
 This library assumes:
 
 1. You are using [`expressjs`](http://www.expressjs.com)
-2. You are using [`swagger`](http://swagger.io)
+2. You are using [`swagger`](http://swagger.io) _version 2_
 
 ## Install
 
@@ -28,7 +28,7 @@ Add `swagger-routes-express` as a `dependency`:
 
 ### Simple example
 
-Given a swagger YAML file `my-api.yml` along the lines of:
+Given a Swagger (v2) YAML file `my-api.yml` along the lines of:
 
     swagger: "2.0"
     info:
@@ -206,6 +206,10 @@ If you don't pass in any options the defaults are:
   scopes: {}
 }
 ```
+
+## What about Swagger Version 3?
+
+Support for Swagger Version 3 is [currently being considered](https://github.com/davesag/swagger-routes-express/milestone/1).
 
 ## Contributing
 
