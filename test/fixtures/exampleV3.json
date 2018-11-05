@@ -1,0 +1,212 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "This is an example.",
+    "version": "1.0.0",
+    "title": "Example API"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "servers": [
+          {
+            "url": "/"
+          }
+        ],
+        "tags": ["root"],
+        "summary": "Get API Version Information",
+        "description": "Returns a list of the available API versions",
+        "operationId": "versions",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/APIVersion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ping": {
+      "get": {
+        "servers": [
+          {
+            "url": "/"
+          }
+        ],
+        "tags": ["root"],
+        "summary": "Get Server Information",
+        "description": "Returns information about the server",
+        "operationId": "ping",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/test": {
+      "get": {
+        "tags": ["test"],
+        "summary": "Just a test",
+        "description": "Returns 200 Okay if the path is accessed with the correct token",
+        "operationId": "v2/test",
+        "responses": {
+          "200": {
+            "description": "success"
+          },
+          "401": {
+            "description": "Unauthorised"
+          }
+        },
+        "security": [
+          {
+            "example": ["identity.basic", "identity.email", "admin"]
+          }
+        ]
+      }
+    },
+    "/authenticate/{code}/{clientId}": {
+      "get": {
+        "servers": [
+          {
+            "url": "/"
+          }
+        ],
+        "tags": ["root"],
+        "summary": "Do the oAuth token exchange",
+        "description": "Exchange a valid code for an oAuth token",
+        "operationId": "v1/auth/authenticate",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "The oAuth2 code returned from the oAuth server",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "The client ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "fail"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/api/v1",
+      "description": "The base path for non-root API routes"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "example": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "http://some-auth.tes/oauth/dialog",
+            "scopes": {
+              "identity.basic": "Basic Identity",
+              "identity.email": "Allowed to read email",
+              "admin": "Can access admin functions"
+            }
+          }
+        }
+      },
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "AuthResponse": {
+        "type": "object",
+        "required": ["token"],
+        "additionalProperties": false,
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "c29tZS1leGNlbGxlbnQtYmFzZTY0LWVuY29kZWQtdG9rZW4="
+          }
+        }
+      },
+      "APIVersion": {
+        "type": "object",
+        "required": ["version", "path"],
+        "additionalProperties": false,
+        "properties": {
+          "version": {
+            "type": "integer",
+            "format": "int64",
+            "example": "2"
+          },
+          "path": {
+            "type": "string",
+            "example": "/api/v2"
+          }
+        }
+      },
+      "ServerInfo": {
+        "type": "object",
+        "required": ["name", "description", "version", "uptime"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Example Server"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is an example server"
+          },
+          "version": {
+            "type": "string",
+            "example": "3.0.0"
+          },
+          "uptime": {
+            "type": "number",
+            "example": 12345.6789
+          }
+        }
+      }
+    }
+  }
+}

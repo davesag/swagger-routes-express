@@ -1,7 +1,6 @@
 const { expect } = require('chai')
 
-const mockRequest = require('../../utils/mockRequest')
-const mockResponse = require('../../utils/mockResponse')
+const { mockRequest, mockResponse } = require('mock-req-res')
 
 const routeTests = (controller, status) => {
   const req = mockRequest()

@@ -1,3 +1,3 @@
-const swaggerRoutes = require('./swaggerRoutes')
+const connector = require('./connector')
 
-module.exports = swaggerRoutes
+module.exports = connector

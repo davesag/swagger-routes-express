@@ -16,7 +16,7 @@ Connect your Express route controllers to restful paths using your Swagger defin
 This library assumes:
 
 1. You are using [`expressjs`](http://www.expressjs.com)
-2. You are using [`swagger`](http://swagger.io) _version 2_
+2. You are using [`swagger`](http://swagger.io) _version 2_ or [`OpenAPI`](https://www.openapis.org) _version 3_
 
 ## Install
 
@@ -26,7 +26,33 @@ Add `swagger-routes-express` as a `dependency`:
 
 ## Examples
 
-### Simple example
+### A simple API
+
+Assume the following API route controllers, defined in `./api/index.js` as follows:
+
+    const { name, version, description } = require('../../package.json')
+
+    const versions = (req, res) => {
+      res.json([
+        {
+          version: 1,
+          path: '/api/v1'
+        }
+      ])
+    }
+
+    const ping = (req, res) => {
+      res.json({
+        name,
+        description,
+        version,
+        uptime: process.uptime()
+      })
+    }
+
+    module.exports = { ping, versions }
+
+### Swagger Version 2 Example
 
 Given a Swagger (v2) YAML file `my-api.yml` along the lines of:
 
@@ -94,29 +120,71 @@ Given a Swagger (v2) YAML file `my-api.yml` along the lines of:
         items:
           $ref: "#/definitions/APIVersion"
 
-And API route controllers in `./api/index.js`:
+### Or as an OpenAPI Version 3 example
 
-    const { name, version, description } = require('../../package.json')
+    openapi: 3.0.0
+    info:
+      description: Something about the API
+      version: 1.0.0
+      title: Test API
+    paths:
+      /:
+        get:
+          tags:
+            - root
+          summary: Get API Version Information
+          description: Returns a list of the available API versions
+          operationId: versions
+          responses:
+            '200':
+              description: success
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/ArrayOfVersions'
+      /ping:
+        get:
+          tags:
+            - root
+          summary: Get Server Information
+          description: Returns information about the server
+          operationId: ping
+          responses:
+            '200':
+              description: success
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/ServerInfo'
+    servers:
+      - url: /api/v1
+    components:
+      schemas:
+        APIVersion:
+          type: object
+          properties:
+            version:
+              type: integer
+              format: int64
+            path:
+              type: string
+        ServerInfo:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            version:
+              type: string
+            uptime:
+              type: number
+        ArrayOfVersions:
+          type: array
+          items:
+            $ref: '#/components/schemas/APIVersion'
 
-    const versions = (req, res) => {
-      res.json([
-        {
-          version: 1,
-          path: '/api/v1'
-        }
-      ])
-    }
-
-    const ping = (req, res) => {
-      res.json({
-        name,
-        description,
-        version,
-        uptime: process.uptime()
-      })
-    }
-
-    module.exports = { ping, versions }
+### Your Express Server
 
 You could set up your server as follows:
 
@@ -152,6 +220,10 @@ You can pass in a range of options, so if your swagger document defines security
         'admin': adminAuthMiddleware
       }
     }
+
+#### OpenAPI V3 Security Blocks
+
+OpenAPI V3 allows you to define a global `security` definition as well as path specific ones. The global `security` block will be applied if there is no path specific one defined.
 
 ### Adding hooks
 
@@ -190,7 +262,15 @@ If no `operationId` is supplied for a path then a default `notFound` controller 
 
 ### Base paths
 
+#### Swagger Version 2
+
 For the root path `/` we check the route's `tags`.  If the first tag defined for a path is `'root'` we don't inject the api basePath, otherwise we do.  You can define your own `rootTag` option to override this.
+
+#### OpenAPI Version 3
+
+The OpenAPI format allows you to define both a default `servers` array, and `path` specific `servers` arrays. The `url` fields in those arrays are parsed, ignoring any absolute URLS (as they are deemed to refer to controllers external to this API Server).
+
+The spec allows you to include template variables in the `servers`' `url` field.  To accomodate this you can supply a `variables` option in `options`.  Any variables you specify will be substituted.
 
 ### Default Options
 
@@ -202,14 +282,12 @@ If you don't pass in any options the defaults are:
   notFound: : require('./routes/notFound'),
   notImplemented: require('./routes/notImplemented'),
   onCreateRoute: undefined,
-  rootTag: 'root',
-  scopes: {}
+  rootTag: 'root', // unused in OpenAPI v3 docs
+  scopes: {},
+  variables: {}, // unused in Swagger V2 docs
+  INVALID_VERSION: require('./errors').INVALID_VERSION
 }
 ```
-
-## What about Swagger Version 3?
-
-Support for Swagger Version 3 is [currently being considered](https://github.com/davesag/swagger-routes-express/milestone/1).
 
 ## Contributing
 
