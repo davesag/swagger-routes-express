@@ -1,0 +1,169 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is an example.",
+    "version": "1.0.0",
+    "title": "Example API"
+  },
+  "basePath": "/api/v2",
+  "schemes": ["https", "http"],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": ["root"],
+        "summary": "Get API Version Information",
+        "description": "Returns a list of the available API versions",
+        "operationId": "versions",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/APIVersion"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ping": {
+      "get": {
+        "tags": ["root"],
+        "summary": "Get Server Information",
+        "description": "Returns information about the server",
+        "operationId": "ping",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/ServerInfo"
+            }
+          }
+        }
+      }
+    },
+    "/test": {
+      "get": {
+        "tags": ["test"],
+        "summary": "Just a test",
+        "description": "Returns 200 Okay if the path is accessed with the correct token",
+        "operationId": "v2/test",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "success"
+          },
+          "401": {
+            "description": "Unauthorised"
+          }
+        },
+        "security": [
+          {
+            "example": ["identity.basic", "identity.email", "admin"]
+          }
+        ]
+      }
+    },
+    "/authenticate/{code}/{clientId}": {
+      "get": {
+        "tags": ["root"],
+        "summary": "Do the oAuth token exchange",
+        "description": "Exchange a valid code for an oAuth token",
+        "operationId": "v1/auth/authenticate",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "The oAuth2 code returned from the oAuth server",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "clientId",
+            "in": "path",
+            "description": "The client ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/AuthResponse"
+            }
+          },
+          "400": {
+            "description": "fail"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "example": {
+      "type": "oauth2",
+      "authorizationUrl": "http://some-auth.tes/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "identity.basic": "Basic Identity",
+        "identity.email": "Allowed to read email",
+        "admin": "Can access admin functions"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "AuthResponse": {
+      "type": "object",
+      "required": ["token"],
+      "additionalProperties": false,
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "APIVersion": {
+      "type": "object",
+      "required": ["version", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    },
+    "ServerInfo": {
+      "type": "object",
+      "required": ["name", "description", "version", "uptime"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "uptime": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
