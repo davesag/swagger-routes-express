@@ -1,6 +1,6 @@
 # swagger-routes-express
 
-Connect your Express route controllers to restful paths using your Swagger definition file
+Connect your Express route controllers to restful paths using your Swagger/OpenAPI definition file
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/davesag/swagger-routes-express.svg)](https://greenkeeper.io/)
 
@@ -220,6 +220,27 @@ You can pass in a range of options, so if your swagger document defines security
         'admin': adminAuthMiddleware
       }
     }
+
+#### What's an Auth Middleware function?
+
+An Auth Middleware Function is simply an [Express Middleware function](https://expressjs.com/en/guide/using-middleware.html) that checks to see if the user making the request is allowed to do so.
+
+How this actually works in your server's case is going to be completely application specific, but the general idea is your app needs to be able to log users in, or accept a token from a header, or somehow otherwise stick a user id, or some roles, into `req.user` or `req.session.user` or something like that.  There are dozens of ways to do this.  I recommend using something like [Passport](http://www.passportjs.org/packages/) to handle the specifics.
+
+Your Auth Middleware then just needs to check that the user / roles you've stored corresponds with what you'd like to allow that user to do.
+
+```
+async function correspondingMiddlewareFunction(req, res, next) {
+  // previously you have added a userId to req (say from an 'Authorization: Bearer token' header)
+  // how you check that the token is valid is up to your app's logic
+  if (await isValidToken(req.user.token)) return next()
+
+  // otherwise reject with an error
+  return res.status(401).json({ error: "I'm afraid you can't do that" })
+}
+```
+
+* [More information…](https://duckduckgo.com/?q=express+auth+middleware) (via DuckDuckGo)
 
 #### OpenAPI V3 Security Blocks
 
