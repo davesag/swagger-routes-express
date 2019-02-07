@@ -4,8 +4,13 @@
   "description": "Connect your Express route controllers to restful paths using your Swagger definition file",
   "main": "src/index.js",
   "engines": {
-    "node": ">8.12.0"
+    "node": ">= 10.15.1"
   },
+  "files": [
+    "/CONTRIBUTING.md",
+    "/package*.json",
+    "/src"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/davesag/swagger-routes-express.git"
