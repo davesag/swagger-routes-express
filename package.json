@@ -1,11 +1,16 @@
 {
   "name": "swagger-routes-express",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Connect your Express route controllers to restful paths using your Swagger definition file",
   "main": "src/index.js",
   "engines": {
-    "node": ">8.12.0"
+    "node": ">= 10.15.1"
   },
+  "files": [
+    "/CONTRIBUTING.md",
+    "/package*.json",
+    "/src"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/davesag/swagger-routes-express.git"
@@ -57,28 +62,28 @@
     "cache": true
   },
   "devDependencies": {
-    "ajv": "^6.5.5",
+    "ajv": "^6.8.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^5.8.0",
-    "eslint-config-prettier": "^3.1.0",
+    "eslint": "^5.13.0",
+    "eslint-config-prettier": "^3.6.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-mocha": "^5.2.0",
-    "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-mocha": "^5.2.1",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "faker": "^4.1.0",
-    "husky": "^1.1.3",
-    "lint-staged": "^8.0.4",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.3",
     "mocha": "^5.2.0",
     "mock-req-res": "^1.0.2",
-    "nyc": "^13.1.0",
-    "prettier": "^1.14.3",
+    "nyc": "^13.2.0",
+    "prettier": "^1.16.4",
     "proxyquire": "^2.1.0",
-    "sinon": "^7.1.1",
-    "sinon-chai": "^3.1.0"
+    "sinon": "^7.2.3",
+    "sinon-chai": "^3.3.0"
   },
   "husky": {
     "hooks": {
