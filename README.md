@@ -1,6 +1,6 @@
 # swagger-routes-express
 
-Connect your Express route controllers to restful paths using your Swagger/OpenAPI definition file
+Connect your Express route controllers to restful paths using your Swagger 2 or OpenAPI 3 definition file
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/davesag/swagger-routes-express.svg)](https://greenkeeper.io/)
 
@@ -11,6 +11,8 @@ Connect your Express route controllers to restful paths using your Swagger/OpenA
 | ------ | ------ | -------- | ----- |
 | `develop` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/develop/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | Work in progress |
 | `master` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/master.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/master) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/master/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | Latest stable release |
+
+[![NPM](https://nodei.co/npm/swagger-routes-express.png)](https://nodei.co/npm/swagger-routes-express/)
 
 ## Prerequisites
 
@@ -23,7 +25,7 @@ This library assumes:
 
 Add `swagger-routes-express` as a `dependency`:
 
-```
+```sh
 npm i swagger-routes-express
 ```
 
@@ -33,7 +35,7 @@ npm i swagger-routes-express
 
 Assume the following API route controllers, defined in `./api/index.js` as follows:
 
-```
+```js
 const { name, version, description } = require('../../package.json')
 
 const versions = (req, res) => {
@@ -61,75 +63,75 @@ module.exports = { ping, versions }
 
 Given a Swagger (v2) YAML file `my-api.yml` along the lines of:
 
-```
-swagger: "2.0"
+```yml
+swagger: '2.0'
 info:
   description: Something about the API
-  version: "1.0.0"
-  title: "Test API"
-basePath: "/api/v1"
+  version: '1.0.0'
+  title: 'Test API'
+basePath: '/api/v1'
 schemes:
-  - "https"
-  - "http"
+  - 'https'
+  - 'http'
 paths:
   /:
     get:
       tags:
-        - "root"
-      summary: "Get API Version Information"
-      description: "Returns a list of the available API versions"
-      operationId: "versions"
+        - 'root'
+      summary: 'Get API Version Information'
+      description: 'Returns a list of the available API versions'
+      operationId: 'versions'
       produces:
-      - "application/json"
+        - 'application/json'
       responses:
         200:
-          description: "success"
+          description: 'success'
           schema:
-            $ref: "#/definitions/ArrayOfVersions"
+            $ref: '#/definitions/ArrayOfVersions'
   /ping:
     get:
       tags:
-        - "root"
-      summary: "Get Server Information"
-      description: "Returns information about the server"
-      operationId: "ping"
+        - 'root'
+      summary: 'Get Server Information'
+      description: 'Returns information about the server'
+      operationId: 'ping'
       produces:
-      - "application/json"
+        - 'application/json'
       responses:
         200:
-          description: "success"
+          description: 'success'
           schema:
-            $ref: "#/definitions/ServerInfo"
+            $ref: '#/definitions/ServerInfo'
 definitions:
   # see https://swagger.io/docs/specification/data-models/data-types
   APIVersion:
-    type: "object"
+    type: 'object'
     properties:
       version:
-        type: "integer"
-        format: "int64"
+        type: 'integer'
+        format: 'int64'
       path:
-        type: "string"
+        type: 'string'
   ServerInfo:
-    type: "object"
+    type: 'object'
     properties:
       name:
-        type: "string"
+        type: 'string'
       description:
-        type: "string"
+        type: 'string'
       version:
-        type: "string"
+        type: 'string'
       uptime:
-        type: "number"
+        type: 'number'
   ArrayOfVersions:
-    type: "array"
+    type: 'array'
     items:
-      $ref: "#/definitions/APIVersion"
+      $ref: '#/definitions/APIVersion'
 ```
 
-### Or as an OpenAPI Version 3 example
+### OpenAPI Version 3 example
 
-```
+```yml
 openapi: 3.0.0
 info:
   description: Something about the API
@@ -197,7 +199,7 @@ components:
 
 You could set up your server as follows:
 
-```
+```js
 const express = require('express')
 const SwaggerParser = require('swagger-parser')
 const swaggerRoutes = require('swagger-routes-express')
@@ -220,19 +222,62 @@ const makeApp = async () => {
 
 With the result that requests to `GET /` will invoke the `versions` controller and a request to `/ping` will invoke the `ping` controller.
 
-### Adding security handlers
+### Adding security middleware handlers
 
-You can pass in a range of options, so if your swagger document defines security scopes you can pass in the following `scopes` option:
+You can pass in a range of options, so if your swagger document defines security scopes you can pass in via a `security` option:
 
+For example if your path has a `security` block like
+
+```yml
+paths:
+  /private
+    get:
+      summary: some private route
+      security:
+        - access: ['read', 'write']
+  /admin
+    get:
+      summary: some admin route
+      security:
+        - access: ['admin']
 ```
+
+Supply a `security` option as follows
+
+```js
 const options = {
-  scopes: {
-    'my-scope': correspondingMiddlewareFunction,
-    'my-other-scope': otherAuthMiddleware,
-    'admin': adminAuthMiddleware
+  security: {
+    'read-write': readWriteAuthMiddlewareFunction,
+    admin: adminAuthMiddlewareFunction
   }
 }
 ```
+
+If your paths supply a `security` block but its `scopes` array is empty you can just use its name instead in the `security` option.
+
+```yml
+paths:
+  /private
+    get:
+      summary: some private route
+      security:
+        - apiKey: []
+```
+
+supply a `security` option like
+
+```js
+const options = {
+  security: {
+    apiKey: myAuthMiddlewareFunction
+  }
+}
+```
+
+#### Notes
+
+- Only the **first** security option is used.
+- The previous version of `swagger-routes-express` used a `scopes` option but this didn't make sense for security without scopes. To preserve backwards compatibility the `scopes` option is still permitted but you'll get a deprecation warning.
 
 #### What's an Auth Middleware function?
 
@@ -242,7 +287,7 @@ How this actually works in your server's case is going to be completely applicat
 
 Your Auth Middleware then just needs to check that the user / roles you've stored corresponds with what you'd like to allow that user to do.
 
-```
+```js
 async function correspondingMiddlewareFunction(req, res, next) {
   // previously you have added a userId to req (say from an 'Authorization: Bearer token' header)
   // how you check that the token is valid is up to your app's logic
@@ -263,7 +308,7 @@ OpenAPI V3 allows you to define a global `security` definition as well as path s
 
 You can supply an `onCreateRoute` handler function with the options with signature
 
-```
+```js
 const onCreateRoute = (method, descriptor) => {
   const [path, ...handlers] = descriptor
   console.log('created route', method, path, handlers)
@@ -274,8 +319,8 @@ The method will be one of `get`, `put`, `post`, `delete`, etc.
 
 The descriptor is an array of
 
-```
-[
+```js
+;[
   path, // a string. Swagger param formats will have been converted to express route formats.
   security, // a middleware function (if needed)
   controller //  a route controller function
@@ -316,14 +361,14 @@ The spec allows you to include template variables in the `servers`' `url` field.
 
 If you don't pass in any options the defaults are:
 
-```
+```js
 {
   apiSeparator: '_',
   notFound: : require('./routes/notFound'),
   notImplemented: require('./routes/notImplemented'),
   onCreateRoute: undefined,
   rootTag: 'root', // unused in OpenAPI v3 docs
-  scopes: {},
+  security: {},
   variables: {}, // unused in Swagger V2 docs
   INVALID_VERSION: require('./errors').INVALID_VERSION
 }
@@ -342,7 +387,7 @@ If you don't pass in any options the defaults are:
 
 ### Lint it
 
-```
+```sh
 npm run lint
 ```
 

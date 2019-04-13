@@ -16,17 +16,14 @@ const connectController = require('./connectors/connectController')
  *    notFound = src/routes/notFound
  *    notImplemented = src/routes/notImplemented
  *    onCreateRoute
- *    rootTag = 'root'
- *    scopes = {}
+ *    rootTag = 'root' // ignored if using OpenAPI v3
+ *    security = {}
  *    variables = {}
  *    INVALID_VERSION = errors.INVALID_VERSION
  *  }
  */
 const connector = (api, apiDoc, options = {}) => {
-  const opts = ({
-    INVALID_VERSION = ERRORS.INVALID_VERSION,
-    onCreateRoute
-  } = options)
+  const { INVALID_VERSION = ERRORS.INVALID_VERSION, onCreateRoute } = options
 
   const version = extractVersion(apiDoc)
   if (!version) throw new Error(INVALID_VERSION)

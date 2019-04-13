@@ -1,6 +1,15 @@
-connectSecurity = (security, options) => {
-  const { scopes = {} } = options
-  if (security) return scopes[security]
+const connectSecurity = (key, options) => {
+  const { scopes = {}, security = {} } = options
+  if (key) {
+    if (scopes[key]) {
+      process.emitWarning(
+        'The `scopes` option has been deprecated. Please use `securites` instead.',
+        'DeprecationWarning'
+      )
+      return scopes[key]
+    }
+    return security[key]
+  }
 }
 
 module.exports = connectSecurity
