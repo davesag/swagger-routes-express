@@ -9,7 +9,7 @@ describe('src/normalise/normaliseSecurity', () => {
         example: ['identity.basic', 'identity.email', 'admin']
       }
     ]
-    expected = 'admin,identity.basic,identity.email'
+    const expected = 'admin,identity.basic,identity.email'
 
     it('normalises the security block', () => {
       expect(normaliseSecurity(security)).to.equal(expected)

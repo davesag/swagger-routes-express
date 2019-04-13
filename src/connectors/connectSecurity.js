@@ -1,4 +1,4 @@
-connectSecurity = (security, options) => {
+const connectSecurity = (security, options) => {
   const { scopes = {} } = options
   if (security) return scopes[security]
 }

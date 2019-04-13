@@ -23,10 +23,7 @@ const connectController = require('./connectors/connectController')
  *  }
  */
 const connector = (api, apiDoc, options = {}) => {
-  const opts = ({
-    INVALID_VERSION = ERRORS.INVALID_VERSION,
-    onCreateRoute
-  } = options)
+  const { INVALID_VERSION = ERRORS.INVALID_VERSION, onCreateRoute } = options
 
   const version = extractVersion(apiDoc)
   if (!version) throw new Error(INVALID_VERSION)
