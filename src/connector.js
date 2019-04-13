@@ -15,10 +15,9 @@ const connectController = require('./connectors/connectController')
  *    apiSeparator = '_'
  *    notFound = src/routes/notFound
  *    notImplemented = src/routes/notImplemented
- *    onCreateRoute // ignored if not provided
- *    rootTag = 'root' // ignored for OpenAPI v3
- *    scopes = {} // if using swagger V2
- *    security = {} // if using OpenAPI v3
+ *    onCreateRoute
+ *    rootTag = 'root' // ignored if using OpenAPI v3
+ *    security = {}
  *    variables = {}
  *    INVALID_VERSION = errors.INVALID_VERSION
  *  }
