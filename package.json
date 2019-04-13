@@ -25,8 +25,8 @@
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "lint": "eslint .",
     "prettier": "prettier --write '**/*.{js,json,md}'",
-    "test": "find ./test/unit -name '*spec.js' | NODE_PATH=. NODE_ENV=test xargs mocha --require ./test/unit/test_helper.js",
-    "test:coverage": "find ./test/unit -name '*spec.js' |  NODE_PATH=. NODE_ENV=test xargs nyc mocha --require ./test/unit/test_helper.js"
+    "test": "find ./test/unit -name '*.test.js' | NODE_PATH=. NODE_ENV=test xargs mocha --require ./test/unit/testHelper.js",
+    "test:coverage": "find ./test/unit -name '*.test.js' |  NODE_PATH=. NODE_ENV=test xargs nyc mocha --require ./test/unit/testHelper.js"
   },
   "keywords": [
     "express",
