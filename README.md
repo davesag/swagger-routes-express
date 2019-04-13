@@ -1,6 +1,6 @@
 # swagger-routes-express
 
-Connect your Express route controllers to restful paths using your Swagger/OpenAPI definition file
+Connect your Express route controllers to restful paths using your Swagger 2 or OpenAPI 3 definition file
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/davesag/swagger-routes-express.svg)](https://greenkeeper.io/)
 
