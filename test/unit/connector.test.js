@@ -12,7 +12,7 @@ describe('src/connector', () => {
     versions: () => {}
   }
 
-  const fakeScopes = {
+  const fakeSecurity = {
     'admin,identity.basic,identity.email': () => {}
   }
 
@@ -58,10 +58,10 @@ describe('src/connector', () => {
       })
 
       context('with options', () => {
-        context('with scopes', () => {
+        context('with a security option', () => {
           before(() => {
             const connect = connector(mockApi, doc, {
-              scopes: fakeScopes
+              security: fakeSecurity
             })
             connect(mockApp)
           })
@@ -76,7 +76,7 @@ describe('src/connector', () => {
         context('with onCreateRoute callback', () => {
           before(() => {
             const connect = connector(mockApi, doc, {
-              scopes: fakeScopes,
+              security: fakeSecurity,
               onCreateRoute
             })
             connect(mockApp)

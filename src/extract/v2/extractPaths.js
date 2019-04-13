@@ -1,5 +1,5 @@
 const { METHODS } = require('../../constants')
-const normaliseSecurity = require('../../normalise/normaliseSecurity')
+const normaliseSecurity = require('../../normalise/v2/normaliseSecurity')
 const normaliseOperationId = require('../../normalise/normaliseOperationId')
 const normaliseRoute = require('../../normalise/normaliseRoute')
 
