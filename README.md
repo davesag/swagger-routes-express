@@ -320,7 +320,7 @@ and then in the path specification adding an `x-middleware` option
 
 ```yml
 paths:
-  /special
+  /special:
     get:
       summary: some special route
       x-middleware:
