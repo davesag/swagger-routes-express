@@ -349,8 +349,9 @@ The descriptor is an array of
 ```js
 ;[
   path, // a string. Swagger param formats will have been converted to express route formats.
-  security, // a middleware function (if needed)
-  controller //  a route controller function
+  security, // an auth middleware function (if needed)
+  ...middleware, // other middleware functions (if supplied)
+  controller //  then finally the route controller function
 ]
 ```
 
