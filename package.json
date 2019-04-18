@@ -26,7 +26,8 @@
     "lint": "eslint .",
     "prettier": "prettier --write '**/*.{js,json,md}'",
     "test": "find ./test/unit -name '*.test.js' | NODE_PATH=. NODE_ENV=test xargs mocha --require ./test/unit/testHelper.js",
-    "test:coverage": "find ./test/unit -name '*.test.js' |  NODE_PATH=. NODE_ENV=test xargs nyc mocha --require ./test/unit/testHelper.js"
+    "test:coverage": "find ./test/unit -name '*.test.js' |  NODE_PATH=. NODE_ENV=test xargs nyc mocha --require ./test/unit/testHelper.js",
+    "test:mutants": "NODE_PATH=. NODE_ENV=test npx stryker run"
   },
   "keywords": [
     "express",
@@ -36,6 +37,10 @@
     "controllers"
   ],
   "devDependencies": {
+    "@stryker-mutator/core": "^1.2.0",
+    "@stryker-mutator/javascript-mutator": "^1.2.0",
+    "@stryker-mutator/mocha-framework": "^1.2.0",
+    "@stryker-mutator/mocha-runner": "^1.2.0",
     "ajv": "^6.10.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",

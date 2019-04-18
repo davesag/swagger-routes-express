@@ -11,21 +11,56 @@ describe('src/extract/v3/basePath', () => {
   })
 
   context('given servers', () => {
-    const servers = [
-      {
-        url: `${faker.internet.url()}/`
-      },
-      {
-        url: '/{base}/v3'
-      }
-    ]
+    context('with an absolute base url', () => {
+      const servers = [
+        {
+          url: `${faker.internet.url()}/`
+        }
+      ]
 
-    const variables = { base: 'test' }
+      const expected = ''
 
-    const expected = '/test/v3'
+      it('returns the expected result', () => {
+        expect(basePath(servers, {})).to.equal(expected)
+      })
+    })
 
-    it('returns the expected result', () => {
-      expect(basePath(servers, variables)).to.equal(expected)
+    context('with a variable', () => {
+      const servers = [
+        {
+          url: `${faker.internet.url()}/`
+        },
+        {
+          url: '/{base}/v3'
+        }
+      ]
+
+      const variables = { base: 'test' }
+
+      const expected = '/test/v3'
+
+      it('returns the expected result', () => {
+        expect(basePath(servers, variables)).to.equal(expected)
+      })
+    })
+
+    context('with repeated variables', () => {
+      const servers = [
+        {
+          url: `${faker.internet.url()}/`
+        },
+        {
+          url: '/{base}/v3/{base}'
+        }
+      ]
+
+      const variables = { base: 'test' }
+
+      const expected = '/test/v3/test'
+
+      it('returns the expected result', () => {
+        expect(basePath(servers, variables)).to.equal(expected)
+      })
     })
   })
 })

@@ -39,8 +39,7 @@ const connector = (api, apiDoc, options = {}) => {
 
       const descriptor = [route]
       if (auth) descriptor.push(auth)
-      if (middleware.length) descriptor.push(...middleware)
-      descriptor.push(controller)
+      descriptor.push(...middleware, controller)
 
       app[method](...descriptor)
       if (typeof onCreateRoute === 'function') onCreateRoute(method, descriptor)
