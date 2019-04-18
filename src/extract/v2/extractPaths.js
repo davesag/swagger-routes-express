@@ -1,6 +1,7 @@
 const { METHODS } = require('../../constants')
 const normaliseSecurity = require('../../normalise/v2/normaliseSecurity')
 const normaliseOperationId = require('../../normalise/normaliseOperationId')
+const normaliseMiddleware = require('../../normalise/normaliseMiddleware')
 const normaliseRoute = require('../../normalise/normaliseRoute')
 
 /*
@@ -11,7 +12,8 @@ const normaliseRoute = require('../../normalise/normaliseRoute')
       method,
       route, (normalised and inclues basePath if not a root route)
       operationId,
-      security
+      security,
+      middleware
     }
   ]
 
@@ -19,7 +21,8 @@ const normaliseRoute = require('../../normalise/normaliseRoute')
 const extractPaths = ({ basePath, paths }, options = {}) => {
   const {
     apiSeparator, // What to swap for `/` in the swagger doc
-    rootTag = 'root' // The tag that tells us not to prepend the basePath
+    rootTag = 'root', // The tag that tells us not to prepend the basePath
+    middleware = {}
   } = options
 
   const reduceRoutes = (acc, elem) => {
@@ -31,7 +34,8 @@ const extractPaths = ({ basePath, paths }, options = {}) => {
           method,
           route: normaliseRoute(`${isRoot ? '' : basePath}${elem}`),
           operationId: normaliseOperationId(op.operationId, apiSeparator),
-          security: normaliseSecurity(op.security)
+          security: normaliseSecurity(op.security),
+          middleware: normaliseMiddleware(middleware, op['x-middleware'])
         })
       }
     })
