@@ -18,13 +18,13 @@ const connectController = require('./connectors/connectController')
  *    onCreateRoute
  *    rootTag = 'root' // ignored if using OpenAPI v3
  *    security = {}
- *    variables = {}
+ *    variables = {},
+ *    middleware = {},
  *    INVALID_VERSION = errors.INVALID_VERSION
  *  }
  */
 const connector = (api, apiDoc, options = {}) => {
   const { INVALID_VERSION = ERRORS.INVALID_VERSION, onCreateRoute } = options
-
   const version = extractVersion(apiDoc)
   if (!version) throw new Error(INVALID_VERSION)
 
@@ -33,13 +33,15 @@ const connector = (api, apiDoc, options = {}) => {
   const paths = extractPaths(apiDoc, options)
 
   return app => {
-    paths.forEach(({ method, route, operationId, security }) => {
-      const middleware = connectSecurity(security, options)
+    paths.forEach(({ method, route, operationId, security, middleware }) => {
+      const auth = connectSecurity(security, options)
       const controller = connectController(api, operationId, options)
 
       const descriptor = [route]
-      if (middleware) descriptor.push(middleware)
+      if (auth) descriptor.push(auth)
+      if (middleware.length) descriptor.push(...middleware)
       descriptor.push(controller)
+
       app[method](...descriptor)
       if (typeof onCreateRoute === 'function') onCreateRoute(method, descriptor)
     })

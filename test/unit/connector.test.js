@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-const { stub, spy } = require('sinon')
+const { stub, spy, resetHistory } = require('sinon')
 
 const connector = require('src')
 const ERRORS = require('src/errors')
@@ -22,13 +22,8 @@ describe('src/connector', () => {
 
   const onCreateRoute = spy()
 
-  const resetStubs = () => {
-    mockApp.get.resetHistory()
-    onCreateRoute.resetHistory()
-  }
-
   context('given an invalid document', () => {
-    after(resetStubs)
+    after(resetHistory)
 
     it('throws an error', () =>
       expect(() => {
@@ -46,7 +41,7 @@ describe('src/connector', () => {
           connect(mockApp)
         })
 
-        after(resetStubs)
+        after(resetHistory)
 
         it('returned a function', () => {
           expect(connect).to.be.a('function')
@@ -66,7 +61,7 @@ describe('src/connector', () => {
             connect(mockApp)
           })
 
-          after(resetStubs)
+          after(resetHistory)
 
           it('called app.get for each route', () => {
             expect(mockApp.get.callCount).to.equal(4)
@@ -82,7 +77,7 @@ describe('src/connector', () => {
             connect(mockApp)
           })
 
-          after(resetStubs)
+          after(resetHistory)
 
           it('called app.get for each route', () => {
             expect(mockApp.get.callCount).to.equal(4)
@@ -90,6 +85,35 @@ describe('src/connector', () => {
 
           it('called onCreateRoute for each route', () => {
             expect(onCreateRoute.callCount).to.equal(4)
+          })
+        })
+
+        context('with middleware', () => {
+          const middleTest = () => {}
+          before(() => {
+            const connect = connector(mockApi, doc, {
+              security: fakeSecurity,
+              middleware: { middleTest }
+            })
+            connect(mockApp)
+          })
+
+          after(resetHistory)
+
+          it('called app.get for each route', () => {
+            expect(mockApp.get.callCount).to.equal(4)
+          })
+
+          it("called get('/') with the versions handler", () => {
+            expect(mockApp.get).to.have.been.calledWith('/', mockApi.versions)
+          })
+
+          it("passed the middleware into the call to get('/api/v1/test') after the security middleware", () => {
+            expect(mockApp.get).to.have.been.calledWith(
+              '/api/v1/test',
+              fakeSecurity['admin,identity.basic,identity.email'],
+              middleTest
+            )
           })
         })
       })

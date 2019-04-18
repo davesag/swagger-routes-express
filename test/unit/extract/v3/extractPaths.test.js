@@ -39,19 +39,22 @@ describe('src/extract/v3/extractPaths', () => {
       method: 'get',
       route: '/',
       operationId: 'versions',
-      security: undefined
+      security: undefined,
+      middleware: []
     },
     {
       method: 'get',
       route: '/ping',
       operationId: 'ping',
-      security: undefined
+      security: undefined,
+      middleware: []
     },
     {
       method: 'get',
       route: '/api/v1/test',
       operationId: 'v1_test',
-      security: 'admin,identity.basic,identity.email'
+      security: 'admin,identity.basic,identity.email',
+      middleware: []
     }
   ]
 

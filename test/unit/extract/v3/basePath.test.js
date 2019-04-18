@@ -16,13 +16,13 @@ describe('src/extract/v3/basePath', () => {
         url: `${faker.internet.url()}/`
       },
       {
-        url: '/{base}/v2'
+        url: '/{base}/v3'
       }
     ]
 
     const variables = { base: 'test' }
 
-    const expected = '/test/v2'
+    const expected = '/test/v3'
 
     it('returns the expected result', () => {
       expect(basePath(servers, variables)).to.equal(expected)

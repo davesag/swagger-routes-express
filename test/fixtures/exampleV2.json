@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "title": "Example API"
   },
-  "basePath": "/api/v2",
+  "basePath": "/api/v1",
   "schemes": ["https", "http"],
   "paths": {
     "/": {
@@ -51,6 +51,7 @@
         "summary": "Just a test",
         "description": "Returns 200 Okay if the path is accessed with the correct token",
         "operationId": "v2/test",
+        "x-middleware": ["middleTest"],
         "produces": ["application/json"],
         "responses": {
           "200": {

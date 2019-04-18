@@ -65,6 +65,7 @@
         "summary": "Just a test",
         "description": "Returns 200 Okay if the path is accessed with the correct token",
         "operationId": "v2/test",
+        "x-middleware": ["middleTest"],
         "responses": {
           "200": {
             "description": "success"
@@ -180,7 +181,7 @@
           },
           "path": {
             "type": "string",
-            "example": "/api/v2"
+            "example": "/api/v1"
           }
         }
       },
