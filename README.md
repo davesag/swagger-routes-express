@@ -304,6 +304,33 @@ async function correspondingMiddlewareFunction(req, res, next) {
 
 OpenAPI V3 allows you to define a global `security` definition as well as path specific ones. The global `security` block will be applied if there is no path specific one defined.
 
+### Adding other path-level middleware
+
+You can add your own path specific middleware by passing in a `middleware` option
+
+```js
+{
+  middleware: {
+    myMiddleware: someMiddlewareFunction
+  }
+}
+```
+
+and then in the path specification adding an `x-middleware` option
+
+```yml
+paths:
+  /special:
+    get:
+      summary: some special route
+      x-middleware:
+        - myMiddleware
+```
+
+The `someMiddlewareFunction` will be inserted **after** any auth middleware.
+
+This works for both Swagger v2 and OpenAPI v3 documents.
+
 ### Adding hooks
 
 You can supply an `onCreateRoute` handler function with the options with signature
@@ -322,8 +349,9 @@ The descriptor is an array of
 ```js
 ;[
   path, // a string. Swagger param formats will have been converted to express route formats.
-  security, // a middleware function (if needed)
-  controller //  a route controller function
+  security, // an auth middleware function (if needed)
+  ...middleware, // other middleware functions (if supplied)
+  controller //  then finally the route controller function
 ]
 ```
 
@@ -367,9 +395,10 @@ If you don't pass in any options the defaults are:
   notFound: : require('./routes/notFound'),
   notImplemented: require('./routes/notImplemented'),
   onCreateRoute: undefined,
-  rootTag: 'root', // unused in OpenAPI v3 docs
+  rootTag: 'root', // only used in Swagger V2 docs
   security: {},
-  variables: {}, // unused in Swagger V2 docs
+  variables: {}, // only used in OpenAPI v3 docs
+  middleware: {},
   INVALID_VERSION: require('./errors').INVALID_VERSION
 }
 ```
@@ -384,6 +413,7 @@ If you don't pass in any options the defaults are:
 
 - `npm test` — runs the unit tests.
 - `npm run test:coverage` - run the unit tests with coverage.
+- `npm run test:mutants` - run mutation testing of the unit tests.
 
 ### Lint it
 
