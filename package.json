@@ -1,10 +1,10 @@
 {
   "name": "swagger-routes-express",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Connect your Express route controllers to restful paths using your Swagger 2 or OpenAPI 3 definition file",
   "main": "src/index.js",
   "engines": {
-    "node": ">= 10.15.1"
+    "node": ">= 6.4.0"
   },
   "files": [
     "/CONTRIBUTING.md",
