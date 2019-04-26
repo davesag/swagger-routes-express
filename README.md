@@ -412,7 +412,7 @@ If you don't pass in any options the defaults are:
 ### Test it
 
 - `npm test` — runs the unit tests.
-- `npm run test:coverage` - run the unit tests with coverage.
+- `npm run test:unit:cov` - run the unit tests with coverage.
 - `npm run test:mutants` - run mutation testing of the unit tests.
 
 ### Lint it
