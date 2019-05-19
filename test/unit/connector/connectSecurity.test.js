@@ -1,8 +1,8 @@
 const { expect } = require('chai')
 
-const connectSecurity = require('src/connectors/connectSecurity')
+const connectSecurity = require('src/connector/connectSecurity')
 
-describe('src/connectors/connectSecurity', () => {
+describe('src/connector/connectSecurity', () => {
   context('given no security', () => {
     it('returns undefined', () => {
       expect(connectSecurity(undefined, {})).to.be.undefined

@@ -21,6 +21,22 @@ This library assumes:
 1. You are using [`expressjs`](http://www.expressjs.com)
 2. You are using [`swagger`](http://swagger.io) _version 2_ or [`OpenAPI`](https://www.openapis.org) _version 3_
 
+## Upgrading from Swagger Routes Express V2 to V3.
+
+These docs refer to Version 3 of Swagger Routes Express which changed the way you invoke the `connector`.
+
+### The old way
+
+```js
+const connector = require('swagger-routes-express')
+```
+
+### The new way
+
+```js
+const { connector } = require('swagger-routes-express')
+```
+
 ## Install
 
 Add `swagger-routes-express` as a `dependency`:
@@ -201,14 +217,13 @@ You could set up your server as follows:
 
 ```js
 const express = require('express')
-const SwaggerParser = require('swagger-parser')
-const swaggerRoutes = require('swagger-routes-express')
+const YAML = require('yamljs')
+const { connector } = require('swagger-routes-express')
 const api = require('./api')
 
-const makeApp = async () => {
-  const parser = new SwaggerParser()
-  const apiDescription = await parser.validate('my-api.yml')
-  const connect = swaggerRoutes(api, apiDescription)
+const makeApp = () => {
+  const apiDefinition = YAML.load('api.yml')
+  const connect = connector(api, apiDefinition)
 
   const app = express()
   // do any other app stuff, such as wire in passport, use cors etc
@@ -403,6 +418,29 @@ If you don't pass in any options the defaults are:
 }
 ```
 
+## Generating API Summary information
+
+**This is new in SRE V3**
+
+You can generate a summary of your Swagger v3 or OpenAPI v3 API specification in the form:
+
+```js
+{
+  info: { name, version, description },
+  paths: { [method]: ['/array', '/of', '/normalised/:paths'] }
+}
+```
+
+as follows:
+
+```js
+const YAML = require('yamljs')
+const { summarise } = require('swagger-routes-express')
+
+const apiDefinition = YAML.load('api.yml')
+const apiSummary = summarise(apiDefinition)
+```
+
 ## Development
 
 ### Prerequisites
@@ -412,7 +450,7 @@ If you don't pass in any options the defaults are:
 ### Test it
 
 - `npm test` — runs the unit tests.
-- `npm run test:coverage` - run the unit tests with coverage.
+- `npm run test:unit:cov` - run the unit tests with coverage.
 - `npm run test:mutants` - run mutation testing of the unit tests.
 
 ### Lint it

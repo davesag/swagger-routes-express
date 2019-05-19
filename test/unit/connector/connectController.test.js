@@ -1,8 +1,8 @@
 const { expect } = require('chai')
 
-const connectController = require('src/connectors/connectController')
+const connectController = require('src/connector/connectController')
 
-describe('src/connectors/connectController', () => {
+describe('src/connector/connectController', () => {
   const notImplemented = 'not implemented'
   const notFound = 'not found'
   const options = { notFound, notImplemented }

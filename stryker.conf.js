@@ -4,15 +4,15 @@ module.exports = function(config) {
       'src/**/*.js',
       '!src/constants.js',
       '!src/errors.js',
-      '!src/connectors/connectSecurity.js'
+      '!src/connector/connectSecurity.js'
     ],
     mutator: 'javascript',
     packageManager: 'npm',
     reporters: ['clear-text', 'progress'],
     testRunner: 'mocha',
     mochaOptions: {
-      files: ['test/unit/**/*.test.js'],
-      require: ['test/unit/testHelper.js']
+      spec: ['./test/unit/**/*.test.js'],
+      require: ['./test/unitTestHelper.js']
     },
     transpilers: [],
     testFramework: 'mocha',
