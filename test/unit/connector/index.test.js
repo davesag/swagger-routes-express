@@ -1,7 +1,7 @@
 const { expect } = require('chai')
 const { stub, spy, resetHistory } = require('sinon')
 
-const connector = require('src')
+const connector = require('src/connector')
 const ERRORS = require('src/errors')
 
 const exampleV2 = require('test/fixtures/exampleV2.json')

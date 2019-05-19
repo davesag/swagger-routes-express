@@ -4,7 +4,7 @@ module.exports = function(config) {
       'src/**/*.js',
       '!src/constants.js',
       '!src/errors.js',
-      '!src/connectors/connectSecurity.js'
+      '!src/connector/connectSecurity.js'
     ],
     mutator: 'javascript',
     packageManager: 'npm',
