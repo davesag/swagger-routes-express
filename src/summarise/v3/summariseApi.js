@@ -1,5 +1,5 @@
 const summarisePaths = require('./summarisePaths')
-const basePath = require('src/extract/v3/basePath')
+const basePath = require('../../extract/v3/basePath')
 
 const summariseApi = ({
   servers = [],
