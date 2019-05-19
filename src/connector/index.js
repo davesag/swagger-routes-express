@@ -1,9 +1,9 @@
-const extractVersion = require('./extract/extractVersion')
-const ERRORS = require('./errors')
-const extractV2Paths = require('./extract/v2/extractPaths')
-const extractV3Paths = require('./extract/v3/extractPaths')
-const connectSecurity = require('./connectors/connectSecurity')
-const connectController = require('./connectors/connectController')
+const connectController = require('./connectController')
+const connectSecurity = require('./connectSecurity')
+const ERRORS = require('../errors')
+const extractVersion = require('../extract/extractVersion')
+const extractV2Paths = require('../extract/v2/extractPaths')
+const extractV3Paths = require('../extract/v3/extractPaths')
 
 /**
  *  Connect the route controllers defined in `api` with the
