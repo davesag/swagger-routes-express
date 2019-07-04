@@ -1,16 +1,6 @@
 # swagger-routes-express
 
-Connect your Express route controllers to restful paths using your Swagger 2 or OpenAPI 3 definition file
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/davesag/swagger-routes-express.svg)](https://greenkeeper.io/)
-
-## Branches
-
-<!-- prettier-ignore -->
-| Branch | Status | Coverage | Notes |
-| ------ | ------ | -------- | ----- |
-| `develop` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/develop/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | Work in progress |
-| `master` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/master.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/master) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/master/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | Latest stable release |
+Connect [`Express`](http://www.expressjs.com) route controllers to restful paths using a [`Swagger`](http://swagger.io) v2 or [`OpenAPI`](https://www.openapis.org) v3 definition file.
 
 [![NPM](https://nodei.co/npm/swagger-routes-express.png)](https://nodei.co/npm/swagger-routes-express/)
 
@@ -443,9 +433,19 @@ const apiSummary = summarise(apiDefinition)
 
 ## Development
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/davesag/swagger-routes-express.svg)](https://greenkeeper.io/)
+
+## Branches
+
+<!-- prettier-ignore -->
+| Branch | Status | Coverage | Notes |
+| ------ | ------ | -------- | ----- |
+| `develop` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/develop/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | Work in progress |
+| `master` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/master.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/master) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/master/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | Latest stable release |
+
 ### Prerequisites
 
-- [NodeJS](https://nodejs.org) — Version `10.15.3` or better.
+- [NodeJS](https://nodejs.org) — Ideally version `10.60.0 (LTS)` or better.
 
 ### Test it
 
