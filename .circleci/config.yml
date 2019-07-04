@@ -39,9 +39,10 @@ jobs:
           name: All Unit Tests with Code Coverage
           command: npm run test:unit:cov
 
-      - run:
-          name: Mutation Tests
-          command: npm run test:mutants
+      # Mutation Tests do not run reliably on CI
+      # - run:
+      #     name: Mutation Tests
+      #     command: npm run test:mutants
 
       - run:
           name: Push any lockfile changes
