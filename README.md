@@ -445,7 +445,7 @@ const apiSummary = summarise(apiDefinition)
 
 ### Prerequisites
 
-- [NodeJS](https://nodejs.org) — Ideally version `10.60.0 (LTS)` or better.
+- [NodeJS](https://nodejs.org) — Ideally version `10.16.1 (LTS)` or better.
 
 ### Test it
 
