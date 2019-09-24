@@ -29,6 +29,14 @@ const extractPaths = ({ security, servers, paths }, options = {}) => {
   const defaultBasePath = basePath(servers, variables)
   const defaultSecurity = normaliseSecurity(security)
 
+  const pathSecurity = (opSecurity, defaultSecurity) => {
+    const pathSecurity = normaliseSecurity(opSecurity)
+    if (pathSecurity === null) {
+      return undefined
+    }
+    return pathSecurity || defaultSecurity
+  }
+
   const reduceRoutes = (acc, elem) => {
     METHODS.forEach(method => {
       const op = paths[elem][method]
@@ -41,7 +49,7 @@ const extractPaths = ({ security, servers, paths }, options = {}) => {
           method,
           route: normaliseRoute(`${trimmedBase}${elem}`),
           operationId: normaliseOperationId(op.operationId, apiSeparator),
-          security: normaliseSecurity(op.security) || defaultSecurity,
+          security: pathSecurity(op.security, defaultSecurity),
           middleware: normaliseMiddleware(middleware, op['x-middleware'])
         })
       }
