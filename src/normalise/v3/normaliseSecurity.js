@@ -4,6 +4,7 @@ const normaliseV2Security = require('../v2/normaliseSecurity')
 const normaliseSecurity = security => {
   if (!security) return
   const [first] = security
+  if (!first) return null
   const [key] = Object.keys(first)
   const value = first[key]
   if (value.length === 0) return key

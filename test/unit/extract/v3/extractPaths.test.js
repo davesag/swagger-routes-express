@@ -67,4 +67,47 @@ describe('src/extract/v3/extractPaths', () => {
   it('returns the expected paths', () => {
     expect(paths).to.deep.equal(expected)
   })
+
+  context('root level security opt-out', () => {
+    const api = {
+      servers: [{ url: '/api/v1' }],
+      paths: {
+        '/': {
+          get: {
+            servers: [{ url: '/' }],
+            tags: ['root'],
+            operationId: 'root',
+            security: []
+          }
+        }
+      },
+      security: [
+        {
+          bearerAuth: []
+        }
+      ]
+      // components: {
+      //   securitySchemes
+      // }
+    }
+    const expected = [
+      {
+        method: 'get',
+        route: '/',
+        operationId: 'root',
+        security: undefined,
+        middleware: []
+      }
+    ]
+
+    let paths
+
+    before(() => {
+      paths = extractPaths(api)
+    })
+
+    it('returns the expected paths', () => {
+      expect(paths).to.deep.equal(expected)
+    })
+  })
 })
