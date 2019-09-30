@@ -36,4 +36,11 @@ describe('src/normalise/v3/normaliseSecurity', () => {
       expect(normaliseSecurity()).to.be.undefined
     })
   })
+
+  context('given empty security block', () => {
+    context('it returns null security', () => {
+      const security = []
+      doTest(security, null)
+    })
+  })
 })
