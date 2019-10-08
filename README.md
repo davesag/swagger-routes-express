@@ -362,7 +362,7 @@ The descriptor is an array of
 
 ### Mapping to nested API routes
 
-If your `./api` folder contains nested controllers such as
+If your `./api` folder contains nested controllers such as:
 
 ```
 /api/v1/createThing.js
