@@ -3,7 +3,7 @@ const connectSecurity = (key, options) => {
   if (key) {
     if (scopes[key]) {
       process.emitWarning(
-        'The `scopes` option has been deprecated. Please use `securites` instead.',
+        'The `scopes` option has been deprecated. Please use `security` instead.',
         'DeprecationWarning'
       )
       return scopes[key]
