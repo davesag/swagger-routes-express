@@ -258,30 +258,11 @@ const options = {
 }
 ```
 
-If your paths supply a `security` block but its `scopes` array is empty you can just use its name instead in the `security` option.
-
-```yml
-paths:
-  /private
-    get:
-      summary: some private route
-      security:
-        - apiKey: []
-```
-
-supply a `security` option like
-
-```js
-const options = {
-  security: {
-    apiKey: myAuthMiddlewareFunction
-  }
-}
-```
-
 #### Notes
 
-- Only the **first** security option is used.
+- The scopes are sorted alphabetically.
+- With Swagger v2 docs you must provide at least one `scope`.
+- Only the **first** security option is used, the others are ignored.
 - The previous version of `swagger-routes-express` used a `scopes` option but this didn't make sense for security without scopes. To preserve backwards compatibility the `scopes` option is still permitted but you'll get a deprecation warning.
 
 #### What's an Auth Middleware function?
@@ -308,6 +289,29 @@ async function correspondingMiddlewareFunction(req, res, next) {
 #### OpenAPI V3 Security Blocks
 
 OpenAPI V3 allows you to define a global `security` definition as well as path specific ones. The global `security` block will be applied if there is no path specific one defined.
+
+Also with OpenAPI V3, if your paths supply a `security` block but its `scopes` array is empty, you can just use its name instead in the `security` option.
+
+Given:
+
+```yml
+paths:
+  /private
+    get:
+      summary: some private route
+      security:
+        - apiKey: []
+```
+
+Supply a `security` option like:
+
+```js
+const options = {
+  security: {
+    apiKey: myAuthMiddlewareFunction
+  }
+}
+```
 
 ### Adding other path-level middleware
 
@@ -412,7 +416,7 @@ If you don't pass in any options the defaults are:
 
 **This is new in SRE V3**
 
-You can generate a summary of your Swagger v3 or OpenAPI v3 API specification in the form:
+You can generate a summary of your Swagger v2 or OpenAPI v3 API specification in the form:
 
 ```js
 {
