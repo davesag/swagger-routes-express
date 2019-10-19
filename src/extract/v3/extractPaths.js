@@ -31,9 +31,7 @@ const extractPaths = ({ security, servers, paths }, options = {}) => {
 
   const pathSecurity = (opSecurity, defaultSecurity) => {
     const pathSecurity = normaliseSecurity(opSecurity)
-    if (pathSecurity === null) {
-      return undefined
-    }
+    if (pathSecurity === null) return // the security was an empty array.
     return pathSecurity || defaultSecurity
   }
 
