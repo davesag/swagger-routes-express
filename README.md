@@ -11,22 +11,6 @@ This library assumes:
 1. You are using [`expressjs`](http://www.expressjs.com)
 2. You are using [`swagger`](http://swagger.io) _version 2_ or [`OpenAPI`](https://www.openapis.org) _version 3_
 
-## Upgrading from Swagger Routes Express V2 to V3.
-
-These docs refer to Version 3 of Swagger Routes Express which changed the way you invoke the `connector`.
-
-### The old way
-
-```js
-const connector = require('swagger-routes-express')
-```
-
-### The new way
-
-```js
-const { connector } = require('swagger-routes-express')
-```
-
 ## Install
 
 Add `swagger-routes-express` as a `dependency`:
@@ -201,7 +185,7 @@ components:
         $ref: '#/components/schemas/APIVersion'
 ```
 
-### Your Express Server
+## Your Express Server
 
 You could set up your server as follows:
 
@@ -227,9 +211,11 @@ const makeApp = () => {
 
 With the result that requests to `GET /` will invoke the `versions` controller and a request to `/ping` will invoke the `ping` controller.
 
-### Adding security middleware handlers
+## Adding security middleware handlers
 
 You can pass in a range of options, so if your swagger document defines security scopes you can pass in via a `security` option:
+
+### With scopes
 
 For example if your path has a `security` block like
 
@@ -258,7 +244,11 @@ const options = {
 }
 ```
 
-If your paths supply a `security` block but its `scopes` array is empty you can just use its name instead in the `security` option.
+### Without scopes
+
+If your paths supply a `security` block but its `scopes` array is empty, you can just use its name instead in the `security` option.
+
+Given:
 
 ```yml
 paths:
@@ -269,7 +259,7 @@ paths:
         - apiKey: []
 ```
 
-supply a `security` option like
+Supply a `security` option like:
 
 ```js
 const options = {
@@ -279,12 +269,12 @@ const options = {
 }
 ```
 
-#### Notes
+### Notes
 
-- Only the **first** security option is used.
-- The previous version of `swagger-routes-express` used a `scopes` option but this didn't make sense for security without scopes. To preserve backwards compatibility the `scopes` option is still permitted but you'll get a deprecation warning.
+- The scopes, if supplied, are sorted alphabetically.
+- Only the **first** security option is used, the others are ignored.
 
-#### What's an Auth Middleware function?
+### What's an Auth Middleware function?
 
 An Auth Middleware Function is simply an [Express Middleware function](https://expressjs.com/en/guide/using-middleware.html) that checks to see if the user making the request is allowed to do so.
 
@@ -305,7 +295,7 @@ async function correspondingMiddlewareFunction(req, res, next) {
 
 - [More information…](https://duckduckgo.com/?q=express+auth+middleware) (via DuckDuckGo)
 
-#### OpenAPI V3 Security Blocks
+### OpenAPI V3 Global Security Blocks
 
 OpenAPI V3 allows you to define a global `security` definition as well as path specific ones. The global `security` block will be applied if there is no path specific one defined.
 
@@ -336,7 +326,7 @@ The `someMiddlewareFunction` will be inserted **after** any auth middleware.
 
 This works for both Swagger v2 and OpenAPI v3 documents.
 
-### Adding hooks
+## Adding hooks
 
 You can supply an `onCreateRoute` handler function with the options with signature
 
@@ -347,7 +337,7 @@ const onCreateRoute = (method, descriptor) => {
 }
 ```
 
-The method will be one of `get`, `put`, `post`, `delete`, etc.
+The method will be one of 'get', 'post', 'patch', 'put', or 'delete'.
 
 The descriptor is an array of
 
@@ -360,7 +350,7 @@ The descriptor is an array of
 ]
 ```
 
-### Mapping to nested API routes
+## Mapping to nested API routes
 
 If your `./api` folder contains nested controllers such as:
 
@@ -372,25 +362,25 @@ It's not uncommon for `./index.js` to expose this as `v1_createThing`, but in sw
 
 You can supply your own `apiSeparator` option in place of `_` to map from `/`.
 
-### Missing Route Controllers
+## Missing Route Controllers
 
 If a route controller is defined as an `operationId` in swagger but there is no corresponding controller, a default `notImplemented` controller will be inserted that simply responds with a `501` error. You can also specify your own `notImplemented` controller in `options`.
 
 If no `operationId` is supplied for a path then a default `notFound` controller that responds with a `404` status will be inserted. You can also specify your own `notFound` controller in `options`.
 
-### Base paths
+## Base paths
 
-#### Swagger Version 2
+### Swagger Version 2
 
 For the root path `/` we check the route's `tags`. If the first tag defined for a path is `'root'` we don't inject the api basePath, otherwise we do. You can define your own `rootTag` option to override this.
 
-#### OpenAPI Version 3
+### OpenAPI Version 3
 
 The OpenAPI format allows you to define both a default `servers` array, and `path` specific `servers` arrays. The `url` fields in those arrays are parsed, ignoring any absolute URLS (as they are deemed to refer to controllers external to this API Server).
 
 The spec allows you to include template variables in the `servers`' `url` field. To accomodate this you can supply a `variables` option in `options`. Any variables you specify will be substituted.
 
-### Default Options
+## Default Options
 
 If you don't pass in any options the defaults are:
 
@@ -410,9 +400,7 @@ If you don't pass in any options the defaults are:
 
 ## Generating API Summary information
 
-**This is new in SRE V3**
-
-You can generate a summary of your Swagger v3 or OpenAPI v3 API specification in the form:
+You can generate a summary of your Swagger v2 or OpenAPI v3 API specification in the form:
 
 ```js
 {
@@ -429,6 +417,22 @@ const { summarise } = require('swagger-routes-express')
 
 const apiDefinition = YAML.load('api.yml')
 const apiSummary = summarise(apiDefinition)
+```
+
+## Upgrading from Swagger Routes Express V2 to V3.
+
+These docs refer to Version 3 of Swagger Routes Express which changed the way you invoke the `connector`.
+
+### The old way
+
+```js
+const connector = require('swagger-routes-express')
+```
+
+### The new way
+
+```js
+const { connector } = require('swagger-routes-express')
 ```
 
 ## Development

@@ -4,20 +4,19 @@ const normaliseOperationId = require('../../normalise/normaliseOperationId')
 const normaliseMiddleware = require('../../normalise/normaliseMiddleware')
 const normaliseRoute = require('../../normalise/normaliseRoute')
 
-/*
-
-  Extracts all of the path data into an array of routes
-  [
-    {
-      method,
-      route, (normalised and inclues basePath if not a root route)
-      operationId,
-      security,
-      middleware
-    }
-  ]
-
-*/
+/**
+ *  Extracts all of the path data into an array of routes in the form:
+ *  [
+ *    {
+ *      method,
+ *      route, (normalised and inclues basePath if not a root route)
+ *      operationId,
+ *      security,
+ *      middleware
+ *    }
+ *  ]
+ *
+ */
 const extractPaths = ({ basePath, paths }, options = {}) => {
   const {
     apiSeparator, // What to swap for `/` in the swagger doc
