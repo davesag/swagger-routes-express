@@ -3,22 +3,22 @@ const normaliseSecurity = require('../../normalise/v3/normaliseSecurity')
 const normaliseOperationId = require('../../normalise/normaliseOperationId')
 const normaliseMiddleware = require('../../normalise/normaliseMiddleware')
 const normaliseRoute = require('../../normalise/normaliseRoute')
+const trimBase = require('../../utils/trimBase')
 const basePath = require('./basePath')
 
-/*
-
-  Extracts all of the path data into an array of routes
-  [
-    {
-      method,
-      route, (normalised and inclues basePath if not a root route)
-      operationId,
-      security,
-      middleware
-    }
-  ]
-
-*/
+/**
+ *  Extracts all of the path data into an array of routes in the form:
+ *  [
+ *    {
+ *      method,
+ *      route, (normalised and inclues basePath if not a root route)
+ *      operationId,
+ *      security,
+ *      middleware
+ *    }
+ *  ]
+ *
+ */
 const extractPaths = ({ security, servers, paths }, options = {}) => {
   const {
     apiSeparator, // What to swap for `/` in the swagger doc
@@ -42,10 +42,9 @@ const extractPaths = ({ security, servers, paths }, options = {}) => {
         const base =
           (op.servers ? basePath(op.servers, variables) : defaultBasePath) ||
           /* istanbul ignore next */ ''
-        const trimmedBase = base.endsWith('/') ? base.slice(0, -1) : base
         acc.push({
           method,
-          route: normaliseRoute(`${trimmedBase}${elem}`),
+          route: normaliseRoute(`${trimBase(base)}${elem}`),
           operationId: normaliseOperationId(op.operationId, apiSeparator),
           security: pathSecurity(op.security, defaultSecurity),
           middleware: normaliseMiddleware(middleware, op['x-middleware'])
