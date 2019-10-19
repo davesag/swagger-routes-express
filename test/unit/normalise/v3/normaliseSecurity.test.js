@@ -38,9 +38,8 @@ describe('src/normalise/v3/normaliseSecurity', () => {
   })
 
   context('given empty security block', () => {
-    context('it returns null security', () => {
-      const security = []
-      doTest(security, null)
+    it('returns null', () => {
+      expect(normaliseSecurity([])).to.be.null
     })
   })
 })
