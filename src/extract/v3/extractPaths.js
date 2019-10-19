@@ -5,6 +5,7 @@ const normaliseMiddleware = require('../../normalise/normaliseMiddleware')
 const normaliseRoute = require('../../normalise/normaliseRoute')
 const trimBase = require('../../utils/trimBase')
 const basePath = require('./basePath')
+const pathBase = require('./pathBase')
 
 /**
  *  Extracts all of the path data into an array of routes in the form:
@@ -39,9 +40,7 @@ const extractPaths = ({ security, servers, paths }, options = {}) => {
     METHODS.forEach(method => {
       const op = paths[elem][method]
       if (op) {
-        const base =
-          (op.servers ? basePath(op.servers, variables) : defaultBasePath) ||
-          /* istanbul ignore next */ ''
+        const base = pathBase(op.servers, variables, defaultBasePath)
         acc.push({
           method,
           route: normaliseRoute(`${trimBase(base)}${elem}`),

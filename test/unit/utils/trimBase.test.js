@@ -5,8 +5,6 @@ const trimBase = require('src/utils/trimBase')
 describe('src/utils/trimBase', () => {
   const expected = 'this-is-a-test'
 
-  let result
-
   context('when the base ends with a slash', () => {
     it('returns the trimmed base', () => {
       expect(trimBase(`${expected}/`)).to.equal(expected)
