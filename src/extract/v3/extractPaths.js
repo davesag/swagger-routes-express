@@ -1,5 +1,5 @@
 const { METHODS } = require('../../constants')
-const normaliseSecurity = require('../../normalise/v3/normaliseSecurity')
+const normaliseSecurity = require('../../normalise/normaliseSecurity')
 const normaliseOperationId = require('../../normalise/normaliseOperationId')
 const normaliseMiddleware = require('../../normalise/normaliseMiddleware')
 const normaliseRoute = require('../../normalise/normaliseRoute')
@@ -30,11 +30,11 @@ const extractPaths = ({ security, servers, paths }, options = {}) => {
   const defaultBasePath = basePath(servers, variables)
   const defaultSecurity = normaliseSecurity(security)
 
-  const pathSecurity = (opSecurity, defaultSecurity) => {
-    const pathSecurity = normaliseSecurity(opSecurity)
-    if (pathSecurity === null) return // the security was an empty array.
-    return pathSecurity || defaultSecurity
-  }
+  // const pathSecurity = (opSecurity, defaultSecurity) => {
+  //   const pathSecurity = normaliseSecurity(opSecurity)
+  //   if (pathSecurity === null) return // the security was an empty array.
+  //   return pathSecurity || defaultSecurity
+  // }
 
   const reduceRoutes = (acc, elem) => {
     METHODS.forEach(method => {
@@ -45,7 +45,7 @@ const extractPaths = ({ security, servers, paths }, options = {}) => {
           method,
           route: normaliseRoute(`${trimBase(base)}${elem}`),
           operationId: normaliseOperationId(op.operationId, apiSeparator),
-          security: pathSecurity(op.security, defaultSecurity),
+          security: normaliseSecurity(op.security, defaultSecurity),
           middleware: normaliseMiddleware(middleware, op['x-middleware'])
         })
       }
