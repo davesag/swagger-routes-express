@@ -50,7 +50,7 @@ const ping = (req, res) => {
 module.exports = { ping, versions }
 ```
 
-### Swagger Version 2 Example
+### Swagger Version 2 example
 
 Given a Swagger (v2) YAML file `api.yml` along the lines of:
 
@@ -186,9 +186,9 @@ components:
         $ref: '#/components/schemas/APIVersion'
 ```
 
-## Your Express Server
+## Connecting your Express server
 
-You can `connect` your server as follows:
+You can `connect` your `Express` app or router as follows:
 
 ```js
 const express = require('express')
@@ -320,7 +320,7 @@ async function correspondingMiddlewareFunction(req, res, next) {
 
 ### Adding other path-level middleware
 
-You can add your own path specific middleware by passing in a `middleware` option
+You can add your own path specific middleware by passing in a `middleware` option:
 
 ```js
 {
@@ -330,7 +330,7 @@ You can add your own path specific middleware by passing in a `middleware` optio
 }
 ```
 
-and then, with either Swagger v2 or OpenAPI v3, add an `x-middleware` option in the path specification:
+With either Swagger v2 or OpenAPI v3, add an `x-middleware` option in the path specification:
 
 ```yml
 paths:
@@ -341,7 +341,7 @@ paths:
         - myMiddleware
 ```
 
-The `someMiddlewareFunction` will be inserted **after** any auth middleware.
+The `someMiddlewareFunction` will be inserted **after** any Auth Middleware.
 
 ## Adding hooks
 
@@ -356,7 +356,7 @@ const onCreateRoute = (method, descriptor) => {
 
 The method will be one of 'get', 'post', 'patch', 'put', or 'delete'.
 
-The descriptor is an array of:
+The `descriptor` is an array of:
 
 ```js
 ;[
@@ -381,7 +381,7 @@ You can supply your own `apiSeparator` option in place of `_` to map from `/`.
 
 ## Missing Route Controllers
 
-If a route controller is defined as an `operationId` in swagger but there is no corresponding controller, a default `notImplemented` controller will be inserted that simply responds with a `501` error. You can also specify your own `notImplemented` controller in `options`.
+If a route controller is defined as an `operationId` in Swagger but there is no corresponding controller, a default `notImplemented` controller will be inserted that simply responds with a `501` error. You can also specify your own `notImplemented` controller in `options`.
 
 If no `operationId` is supplied for a path then a default `notFound` controller that responds with a `404` status will be inserted. You can also specify your own `notFound` controller in `options`.
 
@@ -397,7 +397,7 @@ The OpenAPI V3 format allows you to define both a default `servers` array, and `
 
 The spec allows you to include template variables in the `servers`' `url` field. To accomodate this you can supply a `variables` option in `options`. Any variables you specify will be substituted.
 
-## Default Options
+## Default options
 
 If you don't pass in any options the defaults are:
 
@@ -415,7 +415,7 @@ If you don't pass in any options the defaults are:
 }
 ```
 
-## Generating API Summary information
+## Generating API summary information
 
 You can generate a summary of your Swagger v2 or OpenAPI v3 API specification in the form:
 
@@ -436,7 +436,7 @@ const apiDefinition = YAML.load('api.yml')
 const apiSummary = summarise(apiDefinition)
 ```
 
-## Upgrading from Swagger Routes Express V2 to V3.
+## Upgrading from Swagger Routes Express V2 to V3
 
 These docs refer to Version 3 of Swagger Routes Express which changed the way you invoke the `connector`.
 
