@@ -8,7 +8,7 @@ Connect [`Express`](http://www.expressjs.com) route controllers to restful paths
 
 This library assumes you are using:
 
-1. [NodeJS](https://nodejs.org) _version 6.40.0_ or better,
+1. [NodeJS](https://nodejs.org) _version 6.4.0_ or better,
 2. [`expressjs`](http://www.expressjs.com) _any version_, and
 3. [`swagger`](http://swagger.io) _version 2_, or [`OpenAPI`](https://www.openapis.org) _version 3_.
 
