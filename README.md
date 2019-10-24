@@ -6,10 +6,11 @@ Connect [`Express`](http://www.expressjs.com) route controllers to restful paths
 
 ## Prerequisites
 
-This library assumes:
+This library assumes you are using:
 
-1. You are using [`expressjs`](http://www.expressjs.com)
-2. You are using [`swagger`](http://swagger.io) _version 2_ or [`OpenAPI`](https://www.openapis.org) _version 3_
+1. [NodeJS](https://nodejs.org) _version 6.40.0_ or better,
+2. [`expressjs`](http://www.expressjs.com) _any version_, and
+3. [`swagger`](http://swagger.io) _version 2_, or [`OpenAPI`](https://www.openapis.org) _version 3_.
 
 ## Install
 
@@ -51,7 +52,7 @@ module.exports = { ping, versions }
 
 ### Swagger Version 2 Example
 
-Given a Swagger (v2) YAML file `my-api.yml` along the lines of:
+Given a Swagger (v2) YAML file `api.yml` along the lines of:
 
 ```yml
 swagger: '2.0'
@@ -187,7 +188,7 @@ components:
 
 ## Your Express Server
 
-You could set up your server as follows:
+You can `connect` your server as follows:
 
 ```js
 const express = require('express')
@@ -196,15 +197,16 @@ const { connector } = require('swagger-routes-express')
 const api = require('./api')
 
 const makeApp = () => {
-  const apiDefinition = YAML.load('api.yml')
-  const connect = connector(api, apiDefinition)
+  const apiDefinition = YAML.load('api.yml') // load the api as json
+  const connect = connector(api, apiDefinition) // make the connector
+  const app = express() // make the app
 
-  const app = express()
   // do any other app stuff, such as wire in passport, use cors etc
-  // then attach the routes
-  connect(app)
+
+  connect(app) // attach the routes
 
   // add any error handlers last
+
   return app
 }
 ```
@@ -213,11 +215,11 @@ With the result that requests to `GET /` will invoke the `versions` controller a
 
 ## Adding security middleware handlers
 
-You can pass in a range of options, so if your swagger document defines security scopes you can pass in via a `security` option:
+If your swagger document defines security, you can map this to your own Auth Middleware by passing in a `security` option to the `connector`.
 
-### With scopes
+### Security with scopes
 
-For example if your path has a `security` block like
+For example if your path defines oAuth style `security` like:
 
 ```yml
 paths:
@@ -238,15 +240,15 @@ Supply a `security` option as follows
 ```js
 const options = {
   security: {
-    'read-write': readWriteAuthMiddlewareFunction,
+    'read,write': readWriteAuthMiddlewareFunction,
     admin: adminAuthMiddlewareFunction
   }
 }
 ```
 
-### Without scopes
+### Security without scopes
 
-If your paths supply a `security` block but its `scopes` array is empty, you can just use its name instead in the `security` option.
+If your path defines `security`, and its `scopes` array is empty, you use its name in the `security` option.
 
 Given:
 
@@ -269,10 +271,31 @@ const options = {
 }
 ```
 
+### Global security definition
+
+Both Swagger V2 and OpenAPI V3 allow you to define global `security`. The global `security` definition will be applied if there is no path-specific one defined.
+
+### Exempting a path from global security
+
+If you've defined global `security` but wish to exempt a specific path, then you can configure the path like:
+
+```yml
+paths:
+  /my-route
+    get:
+      summary: some route that is exempt from the default security
+      security: []
+```
+
+### Further reading on Swagger and security
+
+- [Swagger V2 Authentication](https://swagger.io/docs/specification/2-0/authentication/), and
+- [Open API V3 Authentication](https://swagger.io/docs/specification/authentication/) docs.
+
 ### Notes
 
-- The scopes, if supplied, are sorted alphabetically.
-- Only the **first** security option is used, the others are ignored.
+- Only the **first** security option is used, the others are ignored. Your Auth Middleware function must handle any alternative authentication schemes.
+- Scopes, if supplied, are sorted alphabetically.
 
 ### What's an Auth Middleware function?
 
@@ -295,10 +318,6 @@ async function correspondingMiddlewareFunction(req, res, next) {
 
 - [More information…](https://duckduckgo.com/?q=express+auth+middleware) (via DuckDuckGo)
 
-### OpenAPI V3 Global Security Blocks
-
-OpenAPI V3 allows you to define a global `security` definition as well as path specific ones. The global `security` block will be applied if there is no path specific one defined.
-
 ### Adding other path-level middleware
 
 You can add your own path specific middleware by passing in a `middleware` option
@@ -311,7 +330,7 @@ You can add your own path specific middleware by passing in a `middleware` optio
 }
 ```
 
-and then in the path specification adding an `x-middleware` option
+and then, with either Swagger v2 or OpenAPI v3, add an `x-middleware` option in the path specification:
 
 ```yml
 paths:
@@ -323,8 +342,6 @@ paths:
 ```
 
 The `someMiddlewareFunction` will be inserted **after** any auth middleware.
-
-This works for both Swagger v2 and OpenAPI v3 documents.
 
 ## Adding hooks
 
@@ -339,7 +356,7 @@ const onCreateRoute = (method, descriptor) => {
 
 The method will be one of 'get', 'post', 'patch', 'put', or 'delete'.
 
-The descriptor is an array of
+The descriptor is an array of:
 
 ```js
 ;[
@@ -372,11 +389,11 @@ If no `operationId` is supplied for a path then a default `notFound` controller 
 
 ### Swagger Version 2
 
-For the root path `/` we check the route's `tags`. If the first tag defined for a path is `'root'` we don't inject the api basePath, otherwise we do. You can define your own `rootTag` option to override this.
+For the root path `/` we check the route's `tags`. If the first `tag` defined for a path is `'root'` we don't inject the api `basePath`, otherwise we do. You can define your own `rootTag` option to override this behaviour.
 
 ### OpenAPI Version 3
 
-The OpenAPI format allows you to define both a default `servers` array, and `path` specific `servers` arrays. The `url` fields in those arrays are parsed, ignoring any absolute URLS (as they are deemed to refer to controllers external to this API Server).
+The OpenAPI V3 format allows you to define both a default `servers` array, and `path` specific `servers` arrays. The `url` fields in those arrays are parsed, ignoring any absolute URLS (as they are deemed to refer to controllers external to this API Server).
 
 The spec allows you to include template variables in the `servers`' `url` field. To accomodate this you can supply a `variables` option in `options`. Any variables you specify will be substituted.
 
@@ -449,7 +466,7 @@ const { connector } = require('swagger-routes-express')
 
 ### Prerequisites
 
-- [NodeJS](https://nodejs.org) — Ideally version `10.16.3 (LTS)` or better.
+- [NodeJS](https://nodejs.org) — Ideally you will develop with version `12.13.0 (LTS)` or better, but it will work with node versions going back to version `6.4.0`.
 
 ### Test it
 
