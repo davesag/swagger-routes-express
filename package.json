@@ -2,23 +2,31 @@
   "name": "swagger-routes-express",
   "version": "3.1.1",
   "description": "Connect Express route controllers to restful paths using a Swagger 2 or OpenAPI 3 definition file",
+  "author": "Dave Sag <davesag@gmail.com>",
+  "type": "commonjs",
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/davesag"
+  },
   "main": "src/index.js",
   "engines": {
     "node": ">= 6.4.0"
   },
   "files": [
-    "/CONTRIBUTING.md",
-    "/package*.json",
-    "/src"
+    "CONTRIBUTING.md",
+    "src"
   ],
-  "author": "Dave Sag <davesag@gmail.com>",
+  "directories": {
+    "lib": "src",
+    "test": "test"
+  },
   "contributors": [
     "David Pohan (https://github.com/pohy)"
   ],
-  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davesag/swagger-routes-express.git"
+    "url": "https://github.com/davesag/swagger-routes-express.git"
   },
   "bugs": {
     "url": "https://github.com/davesag/swagger-routes-express/issues"
@@ -82,6 +90,11 @@
       "git add"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "nyc": {
     "check-coverage": true,
     "per-file": true,
@@ -101,10 +114,5 @@
     ],
     "all": true,
     "cache": true
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
