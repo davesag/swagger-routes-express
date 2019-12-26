@@ -213,11 +213,35 @@ const makeApp = () => {
 
 With the result that requests to `GET /` will invoke the `versions` controller and a request to `/ping` will invoke the `ping` controller.
 
-## Adding security middleware handlers
+## Options
+
+You can pass in an optional `options` object as a third parameter to the `connector` function.
+
+```js
+const connect = connector(api, apiDefinition, options)
+```
+
+If you don't pass in any options the defaults are:
+
+```js
+{
+  security: {},
+  middleware: {},
+  onCreateRoute: undefined,
+  apiSeparator: '_',
+  notFound: : require('./routes/notFound'),
+  notImplemented: require('./routes/notImplemented'),
+  rootTag: 'root', // only used in Swagger V2 docs
+  variables: {}, // only used in OpenAPI v3 docs
+  INVALID_VERSION: require('./errors').INVALID_VERSION
+}
+```
+
+### Adding security middleware handlers
 
 If your swagger document defines security, you can map this to your own Auth Middleware by passing in a `security` option to the `connector`.
 
-### Security with scopes
+#### Security with scopes
 
 For example if your path defines oAuth style `security` like:
 
@@ -246,7 +270,7 @@ const options = {
 }
 ```
 
-### Security without scopes
+#### Security without scopes
 
 If your path defines `security`, and its `scopes` array is empty, you use its name in the `security` option.
 
@@ -271,11 +295,11 @@ const options = {
 }
 ```
 
-### Global security definition
+#### Global security definition
 
 Both Swagger V2 and OpenAPI V3 allow you to define global `security`. The global `security` definition will be applied if there is no path-specific one defined.
 
-### Exempting a path from global security
+#### Exempting a path from global security
 
 If you've defined global `security` but wish to exempt a specific path, then you can configure the path like:
 
@@ -287,17 +311,17 @@ paths:
       security: []
 ```
 
-### Further reading on Swagger and security
+#### Further reading on Swagger and security
 
 - [Swagger V2 Authentication](https://swagger.io/docs/specification/2-0/authentication/), and
 - [Open API V3 Authentication](https://swagger.io/docs/specification/authentication/) docs.
 
-### Notes
+#### Notes
 
 - Only the **first** security option is used, the others are ignored. Your Auth Middleware function must handle any alternative authentication schemes.
 - Scopes, if supplied, are sorted alphabetically.
 
-### What's an Auth Middleware function?
+#### What's an Auth Middleware function?
 
 An Auth Middleware Function is simply an [Express Middleware function](https://expressjs.com/en/guide/using-middleware.html) that checks to see if the user making the request is allowed to do so.
 
@@ -343,7 +367,7 @@ paths:
 
 The `someMiddlewareFunction` will be inserted **after** any Auth Middleware.
 
-## Adding hooks
+### Adding hooks
 
 You can supply an `onCreateRoute` handler function with the options with signature
 
@@ -367,7 +391,7 @@ The `descriptor` is an array of:
 ]
 ```
 
-## Mapping to nested API routes
+### Mapping to nested API routes
 
 If your `./api` folder contains nested controllers such as:
 
@@ -379,41 +403,23 @@ It's not uncommon for `./index.js` to expose this as `v1_createThing`, but in sw
 
 You can supply your own `apiSeparator` option in place of `_` to map from `/`.
 
-## Missing Route Controllers
+### Missing Route Controllers
 
 If a route controller is defined as an `operationId` in Swagger but there is no corresponding controller, a default `notImplemented` controller will be inserted that simply responds with a `501` error. You can also specify your own `notImplemented` controller in `options`.
 
 If no `operationId` is supplied for a path then a default `notFound` controller that responds with a `404` status will be inserted. You can also specify your own `notFound` controller in `options`.
 
-## Base paths
+### Base paths
 
-### Swagger Version 2
+#### Swagger Version 2
 
 For the root path `/` we check the route's `tags`. If the first `tag` defined for a path is `'root'` we don't inject the api `basePath`, otherwise we do. You can define your own `rootTag` option to override this behaviour.
 
-### OpenAPI Version 3
+#### OpenAPI Version 3
 
 The OpenAPI V3 format allows you to define both a default `servers` array, and `path` specific `servers` arrays. The `url` fields in those arrays are parsed, ignoring any absolute URLS (as they are deemed to refer to controllers external to this API Server).
 
 The spec allows you to include template variables in the `servers`' `url` field. To accomodate this you can supply a `variables` option in `options`. Any variables you specify will be substituted.
-
-## Default options
-
-If you don't pass in any options the defaults are:
-
-```js
-{
-  apiSeparator: '_',
-  notFound: : require('./routes/notFound'),
-  notImplemented: require('./routes/notImplemented'),
-  onCreateRoute: undefined,
-  rootTag: 'root', // only used in Swagger V2 docs
-  security: {},
-  variables: {}, // only used in OpenAPI v3 docs
-  middleware: {},
-  INVALID_VERSION: require('./errors').INVALID_VERSION
-}
-```
 
 ## Generating API summary information
 

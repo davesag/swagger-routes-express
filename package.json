@@ -1,24 +1,32 @@
 {
   "name": "swagger-routes-express",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Connect Express route controllers to restful paths using a Swagger 2 or OpenAPI 3 definition file",
+  "author": "Dave Sag <davesag@gmail.com>",
+  "type": "commonjs",
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/davesag"
+  },
   "main": "src/index.js",
   "engines": {
     "node": ">= 6.4.0"
   },
   "files": [
-    "/CONTRIBUTING.md",
-    "/package*.json",
-    "/src"
+    "CONTRIBUTING.md",
+    "src"
   ],
-  "author": "Dave Sag <davesag@gmail.com>",
+  "directories": {
+    "lib": "src",
+    "test": "test"
+  },
   "contributors": [
     "David Pohan (https://github.com/pohy)"
   ],
-  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davesag/swagger-routes-express.git"
+    "url": "https://github.com/davesag/swagger-routes-express.git"
   },
   "bugs": {
     "url": "https://github.com/davesag/swagger-routes-express/issues"
@@ -41,35 +49,35 @@
     "controllers"
   ],
   "dependencies": {
-    "semver": "^6.3.0"
+    "semver": "^7.1.1"
   },
   "devDependencies": {
-    "@stryker-mutator/core": "^2.1.0",
-    "@stryker-mutator/javascript-mutator": "^2.1.0",
-    "@stryker-mutator/mocha-framework": "^2.1.0",
-    "@stryker-mutator/mocha-runner": "^2.1.0",
+    "@stryker-mutator/core": "^2.4.0",
+    "@stryker-mutator/javascript-mutator": "^2.4.0",
+    "@stryker-mutator/mocha-framework": "^2.4.0",
+    "@stryker-mutator/mocha-runner": "^2.4.0",
     "ajv": "^6.10.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^6.5.1",
-    "eslint-config-prettier": "^6.4.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-mocha": "^6.2.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-mocha": "^6.2.2",
     "eslint-plugin-node": "^10.0.0",
-    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "faker": "^4.1.0",
-    "husky": "^3.0.9",
-    "lint-staged": "^9.4.2",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
     "mocha": "^6.2.2",
-    "mock-req-res": "^1.1.2",
-    "nyc": "^14.1.1",
-    "prettier": "^1.18.2",
+    "mock-req-res": "^1.1.3",
+    "nyc": "^15.0.0",
+    "prettier": "^1.19.1",
     "proxyquire": "^2.1.3",
-    "sinon": "^7.5.0",
-    "sinon-chai": "^3.3.0"
+    "sinon": "^8.0.1",
+    "sinon-chai": "^3.4.0"
   },
   "prettier": {
     "semi": false,
@@ -81,6 +89,11 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "nyc": {
     "check-coverage": true,
@@ -101,10 +114,5 @@
     ],
     "all": true,
     "cache": true
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
