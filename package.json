@@ -49,7 +49,7 @@
     "controllers"
   ],
   "dependencies": {
-    "semver": "^7.1.2"
+    "semver": "^7.1.3"
   },
   "devDependencies": {
     "@stryker-mutator/core": "^2.5.0",
