@@ -1,6 +1,6 @@
 {
   "name": "swagger-routes-express",
-  "version": "3.1.4",
+  "version": "3.2.0",
   "description": "Connect Express route controllers to restful paths using a Swagger 2 or OpenAPI 3 definition file",
   "author": "Dave Sag <davesag@gmail.com>",
   "type": "commonjs",
@@ -15,6 +15,7 @@
   },
   "files": [
     "CONTRIBUTING.md",
+    "index.d.ts",
     "src"
   ],
   "directories": {
@@ -22,7 +23,9 @@
     "test": "test"
   },
   "contributors": [
-    "David Pohan (https://github.com/pohy)"
+    "David Pohan (https://github.com/pohy)",
+    "Rodrigo Feijao (https://github.com/rodrigofeijao)",
+    "Marco Rinck <https://github.com/marcorinck>"
   ],
   "repository": {
     "type": "git",
