@@ -460,7 +460,7 @@ const { connector } = require('swagger-routes-express')
 
 ## Development
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/davesag/swagger-routes-express.svg)](https://greenkeeper.io/)
+[![Known Vulnerabilities](https://snyk.io/test/github/davesag/swagger-routes-express/badge.svg)](https://snyk.io/test/github/davesag/swagger-routes-express)
 
 ## Branches
 
