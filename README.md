@@ -464,9 +464,8 @@ const { connector } = require('swagger-routes-express')
 
 <!-- prettier-ignore -->
 | Branch | Status | Coverage | Audit | Notes |
-| ------ | ------ | -------- | ----- |
-| `develop` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/develop/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | [![Vulnerabilities](https://snyk.io/test/github/davesag/swagger-routes-express/develop/badge.svg)](https://snyk.io/test/github/davesag/swagger-routes-express/develop)
- | Work in progress |
+| ------ | ------ | -------- | ----- | ----- |
+| `develop` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/develop/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | [![Vulnerabilities](https://snyk.io/test/github/davesag/swagger-routes-express/develop/badge.svg)](https://snyk.io/test/github/davesag/swagger-routes-express/develop) | Work in progress |
 | `master` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/master.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/master) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/master/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | [![Vulnerabilities](https://snyk.io/test/github/davesag/swagger-routes-express/master/badge.svg)](https://snyk.io/test/github/davesag/swagger-routes-express/master) | Latest stable release |
 
 ### Prerequisites
