@@ -35,5 +35,5 @@ declare module 'swagger-routes-express' {
   }
 
   export function connector(api: Controllers, apiDefinition: object, options?: ConnectorOptions): (router: Router) => void;
-  export function summarise(apiDoc, options?: SummariseOptions): void;
+  export function summarise(apiDefinition: object, options?: SummariseOptions): void;
 }

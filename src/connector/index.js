@@ -7,8 +7,8 @@ const extractV3Paths = require('../extract/v3/extractPaths')
 
 /**
  *  Connect the route controllers defined in `api` with the
- *  `operationIds` and `paths` in the `apiDoc` supplied.
- *  The `apiDoc` may be either a Swagger version 2,
+ *  `operationIds` and `paths` in the `apiDefinition` supplied.
+ *  The `apiDefinition` may be either a Swagger version 2,
  *  or OpenAPI version 3 document.
  *  The options allowed, with their defaults are as follows:
  *  {
@@ -23,14 +23,14 @@ const extractV3Paths = require('../extract/v3/extractPaths')
  *    INVALID_VERSION = errors.INVALID_VERSION
  *  }
  */
-const connector = (api, apiDoc, options = {}) => {
+const connector = (api, apiDefinition, options = {}) => {
   const { INVALID_VERSION = ERRORS.INVALID_VERSION, onCreateRoute } = options
-  const version = extractVersion(apiDoc)
+  const version = extractVersion(apiDefinition)
   if (!version) throw new Error(INVALID_VERSION)
 
   const extractPaths = version === 2 ? extractV2Paths : extractV3Paths
 
-  const paths = extractPaths(apiDoc, options)
+  const paths = extractPaths(apiDefinition, options)
 
   return app => {
     paths.forEach(({ method, route, operationId, security, middleware }) => {
