@@ -63,8 +63,6 @@ describe('src/summarise', () => {
     const INVALID_VERSION = 'ahh crap'
 
     it('returned the expected summary', () =>
-      expect(() => summarise(doc, { INVALID_VERSION })).to.throw(
-        INVALID_VERSION
-      ))
+      expect(() => summarise(doc, { INVALID_VERSION })).to.throw(INVALID_VERSION))
   })
 })

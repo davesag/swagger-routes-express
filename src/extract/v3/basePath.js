@@ -10,9 +10,7 @@ const basePath = (servers, variables) =>
   Array.isArray(servers)
     ? servers.reduce(
         (acc, { url }) =>
-          acc !== '' || !url.startsWith('/')
-            ? acc
-            : substituteVariables(url, variables),
+          acc !== '' || !url.startsWith('/') ? acc : substituteVariables(url, variables),
         ''
       )
     : undefined

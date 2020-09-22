@@ -29,9 +29,7 @@ describe('src/extract/v3/extractPaths', () => {
           get: {
             tags: ['test'],
             operationId: 'v1/test',
-            security: [
-              { example: ['identity.basic', 'identity.email', 'admin'] }
-            ]
+            security: [{ example: ['identity.basic', 'identity.email', 'admin'] }]
           }
         }
       }
