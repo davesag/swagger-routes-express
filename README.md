@@ -470,7 +470,7 @@ const { connector } = require('swagger-routes-express')
 
 ### Prerequisites
 
-- [NodeJS](https://nodejs.org) — Ideally you will develop with version `12.18.2 (LTS)` or better, but it will work with node versions going back to version `6.4.0`.
+- [NodeJS](https://nodejs.org) — Ideally you will develop with version `15.0.1` or better, but it will work with node versions going back to version `6.4.0`.
 
 ### Test it
 
