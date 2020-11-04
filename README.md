@@ -470,7 +470,7 @@ const { connector } = require('swagger-routes-express')
 
 ### Prerequisites
 
-- [NodeJS](https://nodejs.org) — Ideally you will develop with version `15.0.1` or better, but it will work with node versions going back to version `6.4.0`.
+- [NodeJS](htps://nodejs.org), stick to version 14.15.0 for now (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.) The `package-lock.json` file format changed between v6 and v7 of `npm` and npm 7 causes all manner of dramas.
 
 ### Test it
 
