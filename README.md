@@ -470,13 +470,12 @@ const { connector } = require('swagger-routes-express')
 
 ### Prerequisites
 
-- [NodeJS](htps://nodejs.org), stick to version 14.15.0 for now (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.) The `package-lock.json` file format changed between v6 and v7 of `npm` and npm 7 causes all manner of dramas.
+- [NodeJS](htps://nodejs.org), 15.0.1+ (I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.) You must use npm version 7.0.8 or better.
 
 ### Test it
 
 - `npm test` — runs the unit tests.
 - `npm run test:unit:cov` - run the unit tests with coverage.
-- `npm run test:mutants` - run mutation testing of the unit tests.
 
 ### Lint it
 
