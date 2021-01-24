@@ -239,9 +239,13 @@ If you don't pass in any options the defaults are:
 
 ### Adding security middleware handlers
 
+There are several ways to add middleware handlers, and they can be combined to provide a high degree of customisation and flexibility.
+
+#### Specify Auth middleware by name in the API definition yml file
+
 If your swagger document defines security, you can map this to your own Auth Middleware by passing in a `security` option to the `connector`.
 
-#### Security with scopes
+##### Security with scopes
 
 For example if your path defines oAuth style `security` like:
 
@@ -270,7 +274,7 @@ const options = {
 }
 ```
 
-#### Security without scopes
+##### Security without scopes
 
 If your path defines `security`, and its `scopes` array is empty, you use its name in the `security` option.
 
@@ -295,11 +299,32 @@ const options = {
 }
 ```
 
-#### Global security definition
+#### Return an array of controllers
+
+Your API might wish to leverage some middleware functions but you don't want to have to specify them all in the API document itself.
+
+Your API controller functions themselves can return arrays of controller functions.
+
+##### Example
+
+In this case `/api/v1/createThings/index.js` returns an array of controller functions with bespoke middleware controllers running in sequence, and then runs the controller in `/api/v1/createThings/createThings.js`
+
+`/api/v1/createThings/index.js`
+
+```js
+const { checkIfAllowed, stripPII } = require('middleware')
+const actuallyCreateThings = require('./createThings')
+
+const createThings = [checkIfAllowed, stripPII, actuallyCreateThings]
+```
+
+The array of middleware and your controller will be executed in order, so it's important to put your actual controller logic last.
+
+#### Global security definitions
 
 Both Swagger V2 and OpenAPI V3 allow you to define global `security`. The global `security` definition will be applied if there is no path-specific one defined.
 
-#### Exempting a path from global security
+##### Exempting a path from global security
 
 If you've defined global `security` but wish to exempt a specific path, then you can configure the path like:
 
@@ -318,7 +343,8 @@ paths:
 
 #### Notes
 
-- Only the **first** security option is used, the others are ignored. Your Auth Middleware function must handle any alternative authentication schemes.
+- Only the **first** security option is used, the others are ignored. Your Auth Middleware function must handle any alternative authentication schemes. This can be achieved by returning an array of middleware controllers that culminates in the specific api controller you want.
+- Security middleware, wither defined at the global or path level, is applied first, then any controller specific arrays of middleware are applied,
 - Scopes, if supplied, are sorted alphabetically.
 
 #### What's an Auth Middleware function?
@@ -395,13 +421,17 @@ The `descriptor` is an array of:
 
 If your `./api` folder contains nested controllers such as:
 
-```
+```text
 /api/v1/createThing.js
 ```
 
 It's not uncommon for `./index.js` to expose this as `v1_createThing`, but in swagger the `operationId` might specify it as `v1/createThing`.
 
 You can supply your own `apiSeparator` option in place of `_` to map from `/`.
+
+### Arrays of route controllers
+
+In this case `/api/v1/createThings.js` returns an array of controller functions with bespoke middleware controllers running in sequence. This is a shortcut for otherwise specifying middleware as outlined above.
 
 ### Missing Route Controllers
 
@@ -419,7 +449,7 @@ For the root path `/` we check the route's `tags`. If the first `tag` defined fo
 
 The OpenAPI V3 format allows you to define both a default `servers` array, and `path` specific `servers` arrays. The `url` fields in those arrays are parsed, ignoring any absolute URLS (as they are deemed to refer to controllers external to this API Server).
 
-The spec allows you to include template variables in the `servers`' `url` field. To accomodate this you can supply a `variables` option in `options`. Any variables you specify will be substituted.
+The spec allows you to include template variables in the `servers`' `url` field. To accommodate this you can supply a `variables` option in `options`. Any variables you specify will be substituted.
 
 ## Generating API summary information
 
@@ -470,13 +500,12 @@ const { connector } = require('swagger-routes-express')
 
 ### Prerequisites
 
-- [NodeJS](https://nodejs.org) — Ideally you will develop with version `12.18.2 (LTS)` or better, but it will work with node versions going back to version `6.4.0`.
+- [NodeJS](htps://nodejs.org). I use [`nvm`](https://github.com/creationix/nvm) to manage Node versions — `brew install nvm`.
 
 ### Test it
 
 - `npm test` — runs the unit tests.
 - `npm run test:unit:cov` - run the unit tests with coverage.
-- `npm run test:mutants` - run mutation testing of the unit tests.
 
 ### Lint it
 
