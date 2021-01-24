@@ -1,19 +1,19 @@
 const ni = require('../routes/notImplemented')
 const nf = require('../routes/notFound')
 
+const allAboard = (isFun, fun) => typeof fun === 'function' && isFun
+
 const connectController = (api, operationId, options) => {
   const { notFound = nf, notImplemented = ni } = options
+  const controller = api[operationId]
 
-  if (!operationId) return notFound
-  if (typeof api[operationId] === 'function') return api[operationId]
-  if (Array.isArray(api[operationId])) {
-    if (api[operationId].reduce((isFun, fun) => typeof fun === 'function' && isFun, true)) {
-      return api[operationId]
-    } else {
-      return notImplemented
-    }
-  }
-  return notImplemented
+  return operationId
+    ? typeof controller === 'function'
+      ? controller
+      : Array.isArray(controller) && controller.reduce(allAboard, true)
+      ? controller
+      : notImplemented
+    : notFound
 }
 
 module.exports = connectController
