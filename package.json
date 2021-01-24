@@ -1,6 +1,6 @@
 {
   "name": "swagger-routes-express",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "description": "Connect Express route controllers to restful paths using a Swagger 2 or OpenAPI 3 definition file",
   "author": "Dave Sag <davesag@gmail.com>",
   "type": "commonjs",
