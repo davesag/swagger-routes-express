@@ -6,7 +6,7 @@ const prependPath = (base, path) =>
 const detailSummariser =
   base =>
   (path, { servers }) =>
-    Array.isArray(servers) && servers.length !== 0
+    Array.isArray(servers) && servers.length
       ? `${prependPath(servers[0].url, normalisePath(path))}`
       : `${prependPath(base, normalisePath(path))}`
 
