@@ -12,16 +12,20 @@ const extractV3Paths = require('../extract/v3/extractPaths')
  *  or OpenAPI version 3 document.
  *  The options allowed, with their defaults are as follows:
  *  {
- *    apiSeparator = '_'
- *    notFound = src/routes/notFound
- *    notImplemented = src/routes/notImplemented
- *    onCreateRoute
- *    rootTag = 'root' // ignored if using OpenAPI v3
- *    security = {}
+ *    apiSeparator = '_',
+ *    notFound = src/routes/notFound,
+ *    notImplemented = src/routes/notImplemented,
+ *    onCreateRoute,
+ *    rootTag = 'root', // ignored if using OpenAPI v3
+ *    security = {},
  *    variables = {},
  *    middleware = {},
  *    INVALID_VERSION = errors.INVALID_VERSION
  *  }
+ *
+ *  @param {object} api The route controllers that match the `operationIds` in the `apiDefinition`.
+ *  @param {object} apiDefinition The API definition loaded from a JSON or YML file.
+ *  @param {object} options Holds an optional `INVALID_VERSION` string.
  */
 const connector = (api, apiDefinition, options = {}) => {
   const { INVALID_VERSION = ERRORS.INVALID_VERSION, onCreateRoute } = options

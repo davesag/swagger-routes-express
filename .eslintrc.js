@@ -1,6 +1,6 @@
 module.exports = {
-  extends: ['standard', 'prettier', 'prettier/standard'],
-  plugins: ['prettier', 'import', 'promise'],
+  extends: ['standard', 'plugin:prettier/recommended'],
+  plugins: ['mocha'],
   parserOptions: {
     sourceType: 'module'
   },
@@ -10,6 +10,6 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ['error', { singleQuote: true, semi: false }],
-    'no-unused-expressions': 0,
+    'no-unused-expressions': 0
   }
 }
