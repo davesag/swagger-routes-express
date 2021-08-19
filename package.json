@@ -39,7 +39,7 @@
   "scripts": {
     "eslint-check": "eslint --print-config src/index.js | eslint-config-prettier-check",
     "lint": "eslint .",
-    "prettier": "prettier --write '**/*.{js,json,md}'",
+    "prettier": "prettier --write '**/*.{js,json,md,ts}'",
     "test": "npm run test:unit",
     "test:unit": "NODE_ENV=test NODE_PATH=. mocha ./test/unit/ --require ./test/unitTestHelper.js --recursive",
     "test:unit:cov": "NODE_ENV=test NODE_PATH=. nyc mocha ./test/unit/ --require ./test/unitTestHelper.js --recursive",
