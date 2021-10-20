@@ -513,6 +513,9 @@ const { connector } = require('swagger-routes-express')
 npm run lint
 ```
 
+## Starter Template
+For a starter template to use on getting started use this [`repo`](https://github.com/ReubenFrimpong/node-express-open-api-skeleton) 
+
 ## Contributing
 
 Please see the [contributing notes](CONTRIBUTING.md).
