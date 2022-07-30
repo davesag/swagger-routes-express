@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 
 const basePath = require('src/extract/v3/basePath')
 

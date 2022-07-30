@@ -4,7 +4,7 @@ Connect [`Express`](http://www.expressjs.com) route controllers to restful paths
 
 [![NPM](https://nodei.co/npm/swagger-routes-express.png)](https://nodei.co/npm/swagger-routes-express/)
 
-## Prerequisites
+## Assumptions
 
 This library assumes you are using:
 
@@ -490,7 +490,7 @@ const { connector } = require('swagger-routes-express')
 
 ## Development
 
-## Branches
+### Branches
 
 <!-- prettier-ignore -->
 | Branch | Status | Coverage | Audit | Notes |
@@ -512,6 +512,15 @@ const { connector } = require('swagger-routes-express')
 ```sh
 npm run lint
 ```
+
+## Starter templates and examples of use
+
+The following projects use `swagger-routes-express` as a starter template.
+
+- My own [`api-server-boilerplate`](https://github.com/davesag/api-server-boilerplate), and
+- [`node-express-open-api-skeleton`](https://github.com/ReubenFrimpong/node-express-open-api-skeleton) by [Reuben Frimpong](https://github.com/ReubenFrimpong).
+
+_Note_: If you have a template or example of use to add to this list please just raise a PR and I'll take a look.
 
 ## Contributing
 
