@@ -73,7 +73,7 @@
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "mocha": "^10.0.0",
-    "mock-req-res": "^1.2.0",
+    "mock-req-res": "^1.2.1",
     "nyc": "^15.1.0",
     "prettier": "^2.7.1",
     "proxyquire": "^2.1.3",
