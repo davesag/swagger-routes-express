@@ -56,7 +56,7 @@
     "semver": "^7.5.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.4.0",
+    "@faker-js/faker": "^8.0.1",
     "@snyk/protect": "^1.1154.0",
     "@types/express": "^4.17.17",
     "ajv": "^8.12.0",
