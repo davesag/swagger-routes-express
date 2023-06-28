@@ -70,7 +70,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.0",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.2",
+    "lint-staged": "^13.2.3",
     "mocha": "^10.0.0",
     "mock-req-res": "^1.2.1",
     "nyc": "^15.1.0",
