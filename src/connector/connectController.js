@@ -11,8 +11,8 @@ const connectController = (api, operationId, options) => {
     ? typeof controller === 'function'
       ? controller
       : Array.isArray(controller) && controller.reduce(allAboard, true)
-      ? controller
-      : notImplemented
+        ? controller
+        : notImplemented
     : notFound
 }
 

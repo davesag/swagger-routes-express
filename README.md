@@ -2,7 +2,7 @@
 
 Connect [`Express`](http://www.expressjs.com) route controllers to restful paths using a [`Swagger`](http://swagger.io) v2 or [`OpenAPI`](https://www.openapis.org) v3 definition file.
 
-[![NPM](https://nodei.co/npm/swagger-routes-express.png)](https://nodei.co/npm/swagger-routes-express/)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/davesag/swagger-routes-express/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/davesag/swagger-routes-express/tree/develop)
 
 ## Assumptions
 
@@ -495,8 +495,8 @@ const { connector } = require('swagger-routes-express')
 <!-- prettier-ignore -->
 | Branch | Status | Coverage | Audit | Notes |
 | ------ | ------ | -------- | ----- | ----- |
-| `develop` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/develop) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/develop/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | [![Vulnerabilities](https://snyk.io/test/github/davesag/swagger-routes-express/develop/badge.svg)](https://snyk.io/test/github/davesag/swagger-routes-express/develop) | Work in progress |
-| `main` | [![CircleCI](https://circleci.com/gh/davesag/swagger-routes-express/tree/main.svg?style=svg)](https://circleci.com/gh/davesag/swagger-routes-express/tree/main) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/main/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | [![Vulnerabilities](https://snyk.io/test/github/davesag/swagger-routes-express/main/badge.svg)](https://snyk.io/test/github/davesag/swagger-routes-express/main) | Latest stable release |
+| `develop` | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/davesag/swagger-routes-express/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/davesag/swagger-routes-express/tree/develop) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/develop/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | [![Vulnerabilities](https://snyk.io/test/github/davesag/swagger-routes-express/develop/badge.svg)](https://snyk.io/test/github/davesag/swagger-routes-express/develop) | Work in progress |
+| `main` | [![CircleCI](https://dl.circleci.com/status-badge/img/gh/davesag/swagger-routes-express/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/davesag/swagger-routes-express/tree/main) | [![codecov](https://codecov.io/gh/davesag/swagger-routes-express/branch/main/graph/badge.svg)](https://codecov.io/gh/davesag/swagger-routes-express) | [![Vulnerabilities](https://snyk.io/test/github/davesag/swagger-routes-express/main/badge.svg)](https://snyk.io/test/github/davesag/swagger-routes-express/main) | Latest stable release |
 
 ### Prerequisites
 
