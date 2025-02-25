@@ -54,7 +54,7 @@
     "controllers"
   ],
   "dependencies": {
-    "semver": "^7.6.3"
+    "semver": "^7.7.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
